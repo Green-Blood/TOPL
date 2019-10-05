@@ -251,9 +251,8 @@ class NFAfromRegex:
         previous = "::e::"
         i = 0
         while(i < len(self.regex)):
-            print(i)
             char = self.regex[i]
-            print(char)
+            print('Pointing ',i,' at ',char)
             if char in self.alphabet:
                 language.add(char)
                 if previous != self.dot and (previous in self.alphabet or previous in [self.closingBracket, self.star, self.plus, self.questionmark]):
