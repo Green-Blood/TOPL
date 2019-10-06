@@ -250,9 +250,10 @@ class NFAfromRegex:
         self.automata = []
         previous = "::e::"
         i = 0
-        while(i < len(self.regex)):
+        while i < len(self.regex):
             char = self.regex[i]
-            print('Pointing ',i,' at ',char)
+
+            print('Pointing ', i, ' at ',char)
             if char in self.alphabet:
                 language.add(char)
                 if previous != self.dot and (previous in self.alphabet or previous in [self.closingBracket, self.star, self.plus, self.questionmark]):
@@ -260,15 +261,26 @@ class NFAfromRegex:
                 self.automata.append(BuildAutomata.basicSkeleton(char))
             elif char == self.openingSquareBraces:
                 csb = self.regex.index(self.closingSquareBraces, i)
-                char = (self.regex[i: csb+1])
-                i += csb - 2
+                osb = self.regex.index(self.openingSquareBraces, i)
+                char = self.regex[i: csb + 1]
+                i += csb - osb
                 language.add(char)
-                if previous != self.dot and (
-                        previous in self.alphabet or previous in [self.closingBracket, self.star, self.plus,
-                                                                  self.questionmark]):
+                if previous != self.dot and (previous in self.alphabet or previous in [self.closingBracket, self.star, self.plus, self.questionmark]):
                     self.addOperatorToStack(self.dot)
                 self.automata.append(BuildAutomata.basicSkeleton(char))
                 char = "♥"
+            elif char == self.closingSquareBraces:
+                if previous in self.operators:
+                    raise BaseException("Error processing '%s' after '%s'" % (char, previous))
+                while 1:
+                    if len(self.stack) == 0:
+                        raise BaseException("Error processing '%s'. Empty stack" % char)
+                    o = self.stack.pop()
+                    if o == self.openingSquareBraces:
+                        break
+                    elif o in self.operators:
+                        self.processOperator(o)
+
             elif char == self.openingBracket:
                 if previous != self.dot and (previous in self.alphabet or previous in [self.closingBracket, self.star, self.plus, self.questionmark]):
                     self.addOperatorToStack(self.dot)
