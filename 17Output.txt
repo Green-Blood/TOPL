@@ -1,0 +1,7 @@
+Pointing  0  at  a
+{1, 2}
+1
+[2]
+   1 -> 2 on 'a'
+
+Failure: 'str' object has no attribute 'getEClose'
