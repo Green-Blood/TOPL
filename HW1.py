@@ -393,8 +393,6 @@ class makeDFAfromNFA:
     def __init__(self, nfa):
         self.createDFA(nfa)
 
-
-
     def createDFA(self, nfa):
         allstates = dict()
         eclose = dict()
@@ -450,6 +448,10 @@ class makeDFAfromNFA:
 
 #endregion
 
+#region Task 19
+class CheckInLanguage:
+    
+#endregion
 
 def main():
 
