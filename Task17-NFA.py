@@ -70,7 +70,7 @@ class Automata:
                         states.add(tns)
         return allstates
 
-    def display(self):
+    def show(self):
         # states
         print(self.states)
         # startstate
@@ -242,15 +242,9 @@ class NFAfromRegex:
         self.alphabet.extend([chr(i) for i in range(43,58)])
         self.alphabet.extend([chr(i) for i in range(200,254)])
         self.alphabet.extend(["ε", "@", "♥"])
-        self.buildNFA()
+        self.createNFA()
 
-    def getNFA(self):
-        return self.nfa
-
-    def displayNFA(self):
-        self.nfa.display()
-
-    def buildNFA(self):
+    def createNFA(self):
         language = set()
         self.stack = []
         self.automata = []
@@ -385,20 +379,23 @@ class NFAfromRegex:
             elif operator == self.dot:
                 self.automata.append(BuildAutomata.dotSkeleton(b, a))
 
+    def getNFA(self):
+        return self.nfa
+
+    def showNFA(self):
+        self.nfa.show()
 #endregion
 
 #region Task 18
-class DFAfromNFA:
+
+
+class makeDFAfromNFA:
     def __init__(self, nfa):
-        self.buildDFA(nfa)
+        self.createDFA(nfa)
 
-    def getDFA(self):
-        return self.dfa
 
-    def displayDFA(self):
-        self.dfa.display()
 
-    def buildDFA(self, nfa):
+    def createDFA(self, nfa):
         allstates = dict()
         eclose = dict()
         count = 1
@@ -422,11 +419,12 @@ class DFAfromNFA:
                         states.append([trstates, count])
                         allstates[count] = trstates
                         toindex = count
-                        count +=  1
+                        count += 1
                     else:
-                        toindex = [k for k, v in allstates.iteritems() if v == trstates][0]
+                        toindex = [k for k, v in allstates.items() if v == trstates][0]
                     dfa.addTransition(fromindex, toindex, char)
-        for value, state in allstates.iteritems():
+        for value, state in allstates.items():
+
             if nfa.finalstates[0] in state:
                 dfa.addFinalStates(value)
         self.dfa = dfa
@@ -444,6 +442,11 @@ class DFAfromNFA:
             return True
         return False
 
+    def getDFA(self):
+        return self.dfa
+
+    def showDFA(self):
+        self.dfa.show()
 
 #endregion
 
@@ -459,14 +462,14 @@ def main():
         regularexpr = sys.argv[1]
     NFAObj = NFAfromRegex(regularexpr)
     nfa = NFAObj.getNFA()
-    NFAObj.displayNFA()
+    NFAObj.showNFA()
     # file.close()
     # Task 18
     # with io.open("17Output.txt", 'r', encoding="utf-8") as contentsOfFile:
     #     contents = contentsOfFile.read()
-    DFAObj = DFAfromNFA(nfa)
+    DFAObj = makeDFAfromNFA(nfa)
     DFA = DFAObj.getDFA()
-    DFAObj.displayDFA()
+    DFAObj.showDFA()
     # file.close()
 
 
