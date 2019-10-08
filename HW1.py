@@ -1,8 +1,5 @@
-from os import popen
 import sys
 import io
-
-
 #region Task 17
 
 
@@ -449,9 +446,11 @@ class makeDFAfromNFA:
 #endregion
 
 #region Task 19
-class CheckInLanguage:
-    
 #endregion
+
+
+
+
 
 def main():
 
@@ -465,6 +464,7 @@ def main():
     NFAObj = NFAfromRegex(regularexpr)
     nfa = NFAObj.getNFA()
     NFAObj.showNFA()
+
     # file.close()
     # Task 18
     # with io.open("17Output.txt", 'r', encoding="utf-8") as contentsOfFile:
