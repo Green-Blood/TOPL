@@ -455,7 +455,7 @@ class makeDFAfromNFA:
 def main():
 
     # Task 17
-    # file = io.open("17Output.sql", 'w', encoding="utf-8")
+    # file = io.open("17Output.py", 'w', encoding="utf-8")
     # sys.stdout = file
     # alt+208 to use superscript plu
     regularexpr = "(01*1)*1"
@@ -467,7 +467,7 @@ def main():
 
     # file.close()
     # Task 18
-    # with io.open("17Output.sql", 'r', encoding="utf-8") as contentsOfFile:
+    # with io.open("17Output.py", 'r', encoding="utf-8") as contentsOfFile:
     #     contents = contentsOfFile.read()
     DFAObj = makeDFAfromNFA(nfa)
     DFA = DFAObj.getDFA()

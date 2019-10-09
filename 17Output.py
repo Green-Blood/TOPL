@@ -496,7 +496,7 @@ def main():
 
     # Uncomment this part in the end, to take input of the file, which is needed
     # filename = input("Enter the name of the file\n")
-    filename = "17Output.py"
+    filename = "f17Output.py"
 
     contents = readFromFile(filename)
     if filename.endswith(".java"):
