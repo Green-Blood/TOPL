@@ -1,6 +1,5 @@
 import io
 
-
 # Function to read from file, using encoding UTF-8, to read all strange symbols, that we have
 def readFromFile(filename):
     file = io.open(filename, "r",  encoding="utf-8")
@@ -8,7 +7,6 @@ def readFromFile(filename):
         contents = file.read()
         contents = contents.replace("\n", " ")
         return contents
-
 
 # Lexers
 # Java
@@ -31,7 +29,7 @@ def LexerForJava(string):
                 "catch",	"final",	"interface",	"static",	"void",
                 "char",	"finally",	"long",	"strictfp",	"volatile",
                 "class",	"float",	"native",	"super",	"while",
-                "const",	"for",	"new",	"synchronized"]
+                "const",	"for",	"new",	"synchronized", "System.out.println"]
     separators = [";", ",", "(", ")",  "{",  "}",  "[", "]"]
     operators = ["="	">"	"<"	"!"	"~"	"?"	":"	 	
                  "=="	"<="	">="	"!="	"&&"	"||"	"++"	"--"
@@ -113,7 +111,7 @@ def LexerForC(string):
                 "const"	"short"	"float"	"unsigned"
                 "continue"	"for"	"signed"	"void"
                 "default"	"goto"	"sizeof"	"volatile"
-                "do"	"if"	"static"	"while"]
+                "do"	"if"	"static"	"while", "void", "printf", "scanf", "%d", "return", "include", "stdio.h"]
     separators = [";", ",",  "(", ")",  "{",  "}",  "[", "]"]
     operators = ["="	">"	"<"	"!"	"~"	"?"	":"	 	
                  "=="	"<="	">="	"!="	"&&"	"||"	"++"	"--"
@@ -365,7 +363,7 @@ def LexerForSQL(string):
     lexstorage = []
     symbolTable = []
     stcounter = []
-    numbers = ['1', "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+    numbers = ['1', "2", "3", "еу4", "5", "6", "7", "8", "9", "0"]
     specialsymbols = ["!", "%", "^", "&", "*", "(", ")", "-", "+", "=", "{", "}", "|", "~", "[", "]", "/", ";", "'", ":", '"', "<", ">", "?", ",",  "/", "#", "@", "`", "$", "#"]
     identifiers = [chr(i) for i in range(65, 91)]
     identifiers.extend([chr(i) for i in range(97, 123)])
@@ -388,7 +386,7 @@ def LexerForSQL(string):
                      "bigint", "decimal", "float", "dec", "double", "double precision"]
     datetime_types = ["date", "datetime", "timestamp", "time", "year"]
     string_types = ["binary", "varbinary", "tinyblob", "tinytext", "blob", "text", "mediumblob", "mediumtext",
-                    "longblob", "longtext", "enum", "set", ""]
+                    "longblob", "longtext", "enum", "set", "char"]
     st_syntax = ["alter", "create", "drop", "call", "delete", "do", "handler", "import", "insert", "load", "replace",
                  "select", "subquery", "update", "with",
                  "start transaction", "savepoint", "rollback to savepoint", "lock instance", "unlock instance", "set",
@@ -400,7 +398,7 @@ def LexerForSQL(string):
                  "inner join", "not null", "order by", "outer join", "primary key", "procedure", "right join",
                  "insert into", "insert into select", "is null", "is not null", "join", "left join", "like", "limit",
                  "rownum", "select distinct", "select into", "select top", "union", "union all", "unique", "values",
-                 "update", "where"
+                 "update", "where", "table", "primary", "key"
                  ]
     escapes = [r"\n", r"\t", r"\v", r"\b",r"\r",r"\f",r"\a",r"\\",r"\'",r'\"' "//","/"]
     plus_op = [r'\+']
@@ -431,6 +429,8 @@ def LexerForSQL(string):
                 if lexeme != '':
                     if lexeme[0] in numbers and lexeme[-1] in numbers:
                         token.append("Number")
+                    elif lexeme in numeric_types:
+                        token.append("Num_Type")
                     elif lexeme[0] in numbers and lexeme[-1] in identifiers:
                         raise Error("Syntax Error on " + lexeme)
                     elif lexeme in keywords:
@@ -449,8 +449,7 @@ def LexerForSQL(string):
                         token.append("Separator")
                     elif lexeme in operators:
                         token.append("Operator")
-                    elif lexeme in numeric_types:
-                        token.append("Num_Type")
+
                     elif lexeme in escapes:
                         token.append("Escape")
                     elif lexeme == plus_op:
@@ -495,8 +494,8 @@ def showTable(lexstorage,token, stcounter):
 def main():
 
     # Uncomment this part in the end, to take input of the file, which is needed
-    # filename = input("Enter the name of the file\n")
-    filename = "17Output.py"
+    filename = input("Enter the name of the file\n")
+    # filename = "test.c"
 
     contents = readFromFile(filename)
     if filename.endswith(".java"):
@@ -510,7 +509,7 @@ def main():
         LexerForCplus(contents)
     elif filename.endswith(".sql"):
         print("This is Lexer for SQL:")
-        LexerForSQL(contents)
+        LexerForSQL(contents.lower())
     else:
         print("This is Lexer for Python:")
         LexerForPython(contents)
