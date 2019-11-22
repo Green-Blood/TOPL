@@ -13,60 +13,67 @@ void yyerror(const char* s);
 %union {
 	int ival;
 	float fval;
-	char name[20]
+	char name[20];
 }
 
 %token<ival> T_INT
 %token<fval> T_FLOAT
-%token T_PLUS T_MINUS T_MULTIPLY T_DIVIDE T_LEFT T_RIGHT
+%token<name> T_STRING
+%token T_PLUS T_MINUS T_MULTIPLY T_DIVIDE T_LEFT T_RIGHT T_OTHER
 %token T_NEWLINE T_QUIT
 %left T_PLUS T_MINUS
 %left T_MULTIPLY T_DIVIDE
-%token<name> T_STRING
 
-%type<ival> expression
-%type<fval> mixed_expression
+%type<ival> int_calculation
+%type<fval> float_calculation
 %type<name> statement
-%start prog
+
+
+%start program
 
 %%
-prog:
-	   | prog line
+
+program:
+	   | program statements
 ;
 
-line: T_NEWLINE
-    | mixed_expression T_NEWLINE { printf("\tResult: %f\n", $1);}
-    | expression T_NEWLINE { printf("\tResult: %i\n", $1); }
+statements: T_NEWLINE
+    | calculations T_NEWLINE
+	| statement T_NEWLINE { printf("\tResult: %s\n", $1); }
     | T_QUIT T_NEWLINE { printf("bye!\n"); exit(0); }
-	| statement T_NEWLINE { printf("\tThat was a statement: %s", $1);}
+	| T_OTHER
+;
+  
+statement: T_STRING 
 ;
 
-statement: T_STRING
-{
-	printf("It is a string %s", $1);
-};	
-mixed_expression: T_FLOAT                 		 { $$ = $1; }
-	  | mixed_expression T_PLUS mixed_expression	 { $$ = $1 + $3; }
-	  | mixed_expression T_MINUS mixed_expression	 { $$ = $1 - $3; }
-	  | mixed_expression T_MULTIPLY mixed_expression { $$ = $1 * $3; }
-	  | mixed_expression T_DIVIDE mixed_expression	 { $$ = $1 / $3; }
-	  | T_LEFT mixed_expression T_RIGHT		 { $$ = $2; }
-	  | expression T_PLUS mixed_expression	 	 { $$ = $1 + $3; }
-	  | expression T_MINUS mixed_expression	 	 { $$ = $1 - $3; }
-	  | expression T_MULTIPLY mixed_expression 	 { $$ = $1 * $3; }
-	  | expression T_DIVIDE mixed_expression	 { $$ = $1 / $3; }
-	  | mixed_expression T_PLUS expression	 	 { $$ = $1 + $3; }
-	  | mixed_expression T_MINUS expression	 	 { $$ = $1 - $3; }
-	  | mixed_expression T_MULTIPLY expression 	 { $$ = $1 * $3; }
-	  | mixed_expression T_DIVIDE expression	 { $$ = $1 / $3; }
-	  | expression T_DIVIDE expression		 { $$ = $1 / (float)$3; }
+calculations:
+	| float_calculation { printf("\tResult: %f\n", $1);}
+	| int_calculation { printf("\tResult: %i\n", $1); }
 ;
 
-expression: T_INT				{ $$ = $1; }
-	  | expression T_PLUS expression	{ $$ = $1 + $3; }
-	  | expression T_MINUS expression	{ $$ = $1 - $3; }
-	  | expression T_MULTIPLY expression	{ $$ = $1 * $3; }
-	  | T_LEFT expression T_RIGHT		{ $$ = $2; }
+float_calculation: T_FLOAT                 		 { $$ = $1; }
+	  | float_calculation T_PLUS float_calculation	 { $$ = $1 + $3; }
+	  | float_calculation T_MINUS float_calculation	 { $$ = $1 - $3; }
+	  | float_calculation T_MULTIPLY float_calculation { $$ = $1 * $3; }
+	  | float_calculation T_DIVIDE float_calculation	 { $$ = $1 / $3; }
+	  | T_LEFT float_calculation T_RIGHT		 { $$ = $2; }
+	  | int_calculation T_PLUS float_calculation	 	 { $$ = $1 + $3; }
+	  | int_calculation T_MINUS float_calculation	 	 { $$ = $1 - $3; }
+	  | int_calculation T_MULTIPLY float_calculation 	 { $$ = $1 * $3; }
+	  | int_calculation T_DIVIDE float_calculation	 { $$ = $1 / $3; }
+	  | float_calculation T_PLUS int_calculation	 	 { $$ = $1 + $3; }
+	  | float_calculation T_MINUS int_calculation	 	 { $$ = $1 - $3; }
+	  | float_calculation T_MULTIPLY int_calculation 	 { $$ = $1 * $3; }
+	  | float_calculation T_DIVIDE int_calculation	 { $$ = $1 / $3; }
+	  | int_calculation T_DIVIDE int_calculation		 { $$ = $1 / (float)$3; }
+;
+
+int_calculation: T_INT				{ $$ = $1; }
+	  | int_calculation T_PLUS int_calculation	{ $$ = $1 + $3; }
+	  | int_calculation T_MINUS int_calculation	{ $$ = $1 - $3; }
+	  | int_calculation T_MULTIPLY int_calculation	{ $$ = $1 * $3; }
+	  | T_LEFT int_calculation T_RIGHT		{ $$ = $2; }
 ;
 
 %%
@@ -82,6 +89,6 @@ int main() {
 }
 
 void yyerror(const char* s) {
-	fprintf(stderr, "Parse error: %s\n", s);
+	fprintf(stderr, " %s\n", s);
 	exit(1);
 }

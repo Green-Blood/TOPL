@@ -1,22 +1,20 @@
- 
 %option noyywrap
 
 %{
-// Declaration
 #include <stdio.h>
+
 #define YY_DECL int yylex()
+
 #include "parse.tab.h"
-void llerror();
+void lexError();
 %}
 
-numbers ([0-9])+
-alpha ([a-zA-Z])+
 %%
 
 [ \t]	; // ignore all whitespace
-numbers\.numbers 	{yylval.fval = atof(yytext); return T_FLOAT;}
-numbers		{yylval.ival = atoi(yytext); return T_INT;}
-alpha        {sscanf(yytext, "%s", yylval.name); return T_STRING;}
+[0-9]+\.[0-9]+ 	{yylval.fval = atof(yytext); return T_FLOAT;}
+[0-9]+		{yylval.ival = atoi(yytext); return T_INT;}
+[a-zA-Z]+ {sscanf(yytext, "%s", yylval.name); return T_STRING;}
 \n		{return T_NEWLINE;}
 "+"		{return T_PLUS;}
 "-"		{return T_MINUS;}
@@ -26,11 +24,7 @@ alpha        {sscanf(yytext, "%s", yylval.name); return T_STRING;}
 ")"		{return T_RIGHT;}
 "exit"		{return T_QUIT;}
 "quit"		{return T_QUIT;}
- 
+"."		{return T_OTHER;}
 
 %%
-// Functions up here, Section for Lexerrors 
-void llerror(const char* s) {
-	fprintf(stderr, "Lex error: %s\n", s);
-	exit(1);
-}
+//Here is C code section

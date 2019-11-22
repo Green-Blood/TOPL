@@ -47,15 +47,16 @@ extern int yydebug;
   {
     T_INT = 258,
     T_FLOAT = 259,
-    T_PLUS = 260,
-    T_MINUS = 261,
-    T_MULTIPLY = 262,
-    T_DIVIDE = 263,
-    T_LEFT = 264,
-    T_RIGHT = 265,
-    T_NEWLINE = 266,
-    T_QUIT = 267,
-    T_STRING = 268
+    T_STRING = 260,
+    T_PLUS = 261,
+    T_MINUS = 262,
+    T_MULTIPLY = 263,
+    T_DIVIDE = 264,
+    T_LEFT = 265,
+    T_RIGHT = 266,
+    T_OTHER = 267,
+    T_NEWLINE = 268,
+    T_QUIT = 269
   };
 #endif
 
@@ -68,9 +69,9 @@ union YYSTYPE
 
 	int ival;
 	float fval;
-	char name[20]
+	char name[20];
 
-#line 74 "parse.tab.h" /* yacc.c:1909  */
+#line 75 "parse.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
