@@ -46,7 +46,6 @@ statements: T_NEWLINE
   
 statement: T_STRING 
 ;
-
 calculations:
 	| float_calculation { printf("\tResult: %f\n", $1);}
 	| int_calculation { printf("\tResult: %i\n", $1); }
