@@ -27,11 +27,9 @@ quote2      "\""[^"\\]*"\""
 "("		{return T_LEFT;}
 ")"		{return T_RIGHT;}
  
- 
-
 "exit"		{return T_QUIT;}
 "quit"		{return T_QUIT;}
-"."		{return T_OTHER;}
+
 
 %%
 //Here is C code section
