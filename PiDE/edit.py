@@ -1,48 +1,50 @@
-import tkinter as tk
-from tkinter import filedialog
+from tkinter import Tk, scrolledtext, Menu, filedialog, END, messagebox
 
-filename = None
+# Main window
+root = Tk(className=" PiDE")
+textArea = scrolledtext.ScrolledText(root, width = 100, height = 80)
 
-def newFile():
-    global filename
-    filename = "Untitled"
-    text.delete(0.0, END)
-def saveFile():
-    global filename
-    t = text.get(0.0, END)
-    f = open(filename, 'w')
-    f.write(t)
-    f.close()
-def saveAs():
-    f = aksvaseasfile(mode = 'w', defaultextension ='.txt')
-    t = text.get(0.0, END)
-    try:
-        f.write(t.rstrip())
-    except:
-        showerror(title = "Hey, ", message = "Unable to save file...")
+# Functions
+# Hard to say it, but this function will open a File
 def openFile():
-    f = askopenfile(mode = 'r')
-    t = f.read()
-    text.delete(0.0, END)
-    text.insert(0.0, t)
+    file = filedialog.askopenfile(parent = root, mode = 'rb', title = "Select a file", filetype = (("Pi file," "*.pi"), ("All files", "*.*")))
 
-root = tk()
-root.title("PiDE")
-root.minsize(width = 400, height = 400)
-root.maxsize(width = 400, height = 400)
+    if file != None:
+        contents = file.read()
+        textArea.insert('1.0', contents)
+        file.close()
 
-text = Text(root, widht = 400, height = 400)
-text.pack()
+def saveFile():
+    file = filedialog.asksaveasfile(mode = 'w')
+    # slice of the last character from get, as an extra return is added
+    if file != None:
+        data = textArea.get('1.0', END+'-1c')
+        file.write(data)
+        file.close()
+def exitEditor():
+    if messagebox.askyesno("Quit", " Don't leave us, pleease"):
+        root.destroy()
 
-menubar = Menu(root)
-filemenu = Menu(menubar)
-filemenu.add_command(label = 'New', command = newFile)
-filemenu.add_command(label = 'Open', comman = openFile)
-filemenu.add_command(label = 'Save', comman = saveFile)
-filemenu.add_command(label = 'Save as...', comman = saveAs)
-filemenu.add_separator()
-filemenu.add_command(label = 'Quit', comman = root.quit)
-menubar.add_cascade(label = 'File', menu = filemenu)
+def about():
+    label = messagebox.showinfo("About", "This is a PiDE, which we created to help working with PieScript")
 
-root.config(menu = menubar)
+
+# Menu options
+menu = Menu(root)
+root.config(menu = menu)
+fileMenu = Menu(menu)
+menu.add_cascade(label = "File", menu = fileMenu)
+fileMenu.add_command(label = "New")
+fileMenu.add_command(label = "Open", command = openFile)
+fileMenu.add_command(label = "Save", command = saveFile)
+fileMenu.add_separator()
+fileMenu.add_command(label = "Exit", command = exitEditor)
+
+helpMenu = Menu(menu)
+menu.add_cascade(label = "Help")
+menu.add_cascade(label = "About", command = about)
+
+textArea.pack()
+
+# Keep window open
 root.mainloop()
