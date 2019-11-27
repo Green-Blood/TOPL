@@ -1,13 +1,24 @@
-from tkinter import Tk, scrolledtext, Menu, filedialog, END, messagebox
-
+from tkinter import Tk, scrolledtext, Menu, filedialog, END, messagebox, simpledialog
+import os
 # Main window
 root = Tk(className=" PiDE")
 textArea = scrolledtext.ScrolledText(root, width = 100, height = 80)
 
 # Functions
+
+def newFile():
+    # If there is content
+    if len(textArea.get('1.0', END+'-1c')) > 0:
+        if messagebox.askyesno("Save?", "Do you wish to save?"):
+            saveFile()
+        else: textArea.delete('1.0', END)
+    root.title("PiDE")
+
 # Hard to say it, but this function will open a File
 def openFile():
-    file = filedialog.askopenfile(parent = root, mode = 'rb', title = "Select a file", filetype = (("Pi file," "*.pi"), ("All files", "*.*")))
+    file = filedialog.askopenfile(parent = root, mode = 'rb', title = "Select a file", filetype = (("Pi file," "*.pipi"), ("All files", "*.*")))
+
+    root.title(os.path.basename(file.name) + " - PiDE")
 
     if file != None:
         contents = file.read()
@@ -25,6 +36,10 @@ def exitEditor():
     if messagebox.askyesno("Quit", " Don't leave us, pleease"):
         root.destroy()
 
+def findInFile():
+    a = 7
+
+
 def about():
     label = messagebox.showinfo("About", "This is a PiDE, which we created to help working with PieScript")
 
@@ -34,9 +49,10 @@ menu = Menu(root)
 root.config(menu = menu)
 fileMenu = Menu(menu)
 menu.add_cascade(label = "File", menu = fileMenu)
-fileMenu.add_command(label = "New")
+fileMenu.add_command(label = "New", command = newFile)
 fileMenu.add_command(label = "Open", command = openFile)
 fileMenu.add_command(label = "Save", command = saveFile)
+fileMenu.add_command(label = "Find", command = findInFile)
 fileMenu.add_separator()
 fileMenu.add_command(label = "Exit", command = exitEditor)
 
