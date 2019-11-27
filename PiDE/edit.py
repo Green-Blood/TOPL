@@ -37,11 +37,21 @@ def exitEditor():
         root.destroy()
 
 def findInFile():
-    a = 7
+    findString = simpledialog.askstring("Find...", "Enter text, to find ")
+    textData = textArea.get('1.0', END)
 
+    occurances = textData.upper().count(findString.upper())
+
+    if textData.upper().count(findString.upper()) > 0:
+        label = messagebox.showinfo("Results", findString + " has " + str(occurances) +  " occurances" )
+    else:
+        label = messagebox.showinfo("Results", "Sorry*(")
 
 def about():
     label = messagebox.showinfo("About", "This is a PiDE, which we created to help working with PieScript")
+
+def shell():
+     os.system("./PyScript")
 
 
 # Menu options
@@ -59,6 +69,7 @@ fileMenu.add_command(label = "Exit", command = exitEditor)
 helpMenu = Menu(menu)
 menu.add_cascade(label = "Help")
 menu.add_cascade(label = "About", command = about)
+menu.add_cascade(label = "Shell", command = shell)
 
 textArea.pack()
 
