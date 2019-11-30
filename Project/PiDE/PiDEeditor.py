@@ -18,7 +18,7 @@ def newFile():
 
 # Hard to say it, but this function will open a File
 def openFile():
-    file = filedialog.askopenfile(parent = root, mode = 'rb', title = "Select a file", filetype = (("Pi file," "*.pipi"), ("All files", "*.*")))
+    file = filedialog.askopenfile(parent = root, mode = 'rb', title = "Select a file", filetype = (("Pipi file", "*.pipi"), ("All files", "*.*")))
 
     root.title(os.path.basename(file.name) + " - PiDE")
 
@@ -26,7 +26,6 @@ def openFile():
         contents = file.read()
         textArea.insert('1.0', contents)
         file.close()
-
 def saveFile():
     file = filedialog.asksaveasfile(mode = 'w')
     # slice of the last character from get, as an extra return is added
@@ -37,7 +36,6 @@ def saveFile():
 def exitEditor():
     if messagebox.askyesno("Quit", " Don't leave us, pleease"):
         root.destroy()
-
 def findInFile():
     findString = simpledialog.askstring("Find...", "Enter text, to find ")
     textData = textArea.get('1.0', END)
@@ -48,12 +46,10 @@ def findInFile():
         label = messagebox.showinfo("Results", findString + " has " + str(occurances) +  " occurances" )
     else:
         label = messagebox.showinfo("Results", "Sorry*(")
-
 def about():
     label = messagebox.showinfo("About", "This is a PiDE, which we created to help working with PieScript")
 def help():
     messagebox.showinfo("Help", "This is help Menu")
-
 def shell():
     if messagebox.askyesno("Shell?", "Do you want to change it to shell environment?"):
         if platform.system() == 'Windows':
@@ -67,6 +63,7 @@ def shell():
 
 
 # Menu options
+
 menu = Menu(root)
 root.config(menu = menu)
 
@@ -88,6 +85,7 @@ shellMenu = Menu(menu)
 menu.add_cascade(label = "Shell", menu = shellMenu)
 shellMenu.add_command(label = "Shell", command = shell)
 shellMenu.add_command(label = "?")
+
 
 textArea.pack()
 
