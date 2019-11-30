@@ -18,7 +18,7 @@ def newFile():
 
 # Hard to say it, but this function will open a File
 def openFile():
-    file = filedialog.askopenfile(parent = root, mode = 'rb', title = "Select a file", filetype = (("Pipi file", "*.pipi"), ("All files", "*.*")))
+    file = filedialog.askopenfile(parent = root, mode = 'rb', title = "Select a file", filetypes = (("Pipi file", "*.pipi"), ("All files", "*.*")))
 
     root.title(os.path.basename(file.name) + " - PiDE")
 
