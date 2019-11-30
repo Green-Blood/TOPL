@@ -26,6 +26,7 @@ def openFile():
         contents = file.read()
         textArea.insert('1.0', contents)
         file.close()
+
 def saveFile():
     file = filedialog.asksaveasfile(mode = 'w')
     # slice of the last character from get, as an extra return is added
@@ -46,6 +47,17 @@ def findInFile():
         label = messagebox.showinfo("Results", findString + " has " + str(occurances) +  " occurances" )
     else:
         label = messagebox.showinfo("Results", "Sorry*(")
+def runFile():
+    if messagebox.askyesno("Save?", "You need to save before running"):
+        file = filedialog.asksaveasfile(mode='w')
+        # slice of the last character from get, as an extra return is added
+        if file != None:
+            data = textArea.get('1.0', END + '-1c')
+            file.write(data)
+            file.close()
+        os.system("python PyScript " + os.path.basename(file.name))
+
+
 def about():
     label = messagebox.showinfo("About", "This is a PiDE, which we created to help working with PieScript")
 def help():
@@ -81,10 +93,10 @@ menu.add_cascade(label = "Help", menu = helpMenu)
 helpMenu.add_command(label = "Help", command = help)
 helpMenu.add_command(label = "About", command = about)
 
-shellMenu = Menu(menu)
-menu.add_cascade(label = "Shell", menu = shellMenu)
-shellMenu.add_command(label = "Shell", command = shell)
-shellMenu.add_command(label = "?")
+actionMenu = Menu(menu)
+menu.add_cascade(label = "Action", menu = actionMenu)
+actionMenu.add_command(label = "Shell", command = shell)
+actionMenu.add_command(label = "Run", command = runFile)
 
 
 textArea.pack()

@@ -1,24 +1,21 @@
-import tkinter as tk
-from tkinter.messagebox import showwarning
-import subprocess
+import tkinter
+from _tkinter import *
 
-root = tk.Tk()
-root.geometry("600x500")
+root = tkinter.Tk()
 
-label = tk.Label(root, text="Example of xterm embedded in frame")
-label.pack(fill=tk.X)
+label1 = tkinter.Label(text=" enter cluster : ")
+label1.pack()
+clvar = tkinter.IntVar()
+cluster = tkinter.Entry(bd=5)
+clvar = cluster.get()
+cluster.pack()
 
-xterm_frame = tk.Frame(root)
-xterm_frame.pack(fill=tk.BOTH, expand=True)
 
-xterm_frame_id = xterm_frame.winfo_id()
+def open1():
+    print("K-MEDOIDS CLUSTERING")
+    exec('example.py')
 
-try:
-    p = subprocess.Popen(
-        ["xterm", "-into", str(xterm_frame_id), "-geometry", "80x20"],
-        stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-except FileNotFoundError:
-    showwarning("Error", "xterm is not installed")
-    raise SystemExit
 
+button_1 = tkinter.Button(text="SUBMIT", command=open1)
+button_1.pack()
 root.mainloop()
