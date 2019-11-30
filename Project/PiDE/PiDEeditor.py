@@ -1,11 +1,12 @@
 from tkinter import Tk, scrolledtext, Menu, filedialog, END, messagebox, simpledialog
 import os
+from tkinter.messagebox import showwarning
+import subprocess
 # Main window
 root = Tk(className=" PiDE")
 textArea = scrolledtext.ScrolledText(root, width = 100, height = 80)
 
 # Functions
-
 def newFile():
     # If there is content
     if len(textArea.get('1.0', END+'-1c')) > 0:
@@ -51,7 +52,10 @@ def about():
     label = messagebox.showinfo("About", "This is a PiDE, which we created to help working with PieScript")
 
 def shell():
-     os.system("./PyScript")
+    if messagebox.askyesno("Shell?", "Do you want to change it to shell environment?"):
+        exec("Shell.py")
+
+   
 
 
 # Menu options
