@@ -59,7 +59,7 @@ def shell():
         if platform.system() == 'Windows':
             os.system('start cmd')
         elif platform.system() == 'Linux':
-            os.system('open -a Terminal')
+            os.system('gnome-terminal')
         elif platform.system() == 'Darwin':
             os.system('open -a Terminal')
         root.destroy()
