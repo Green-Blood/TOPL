@@ -79,16 +79,40 @@ private:
   std::vector<Node*> arglist;
 };
 
+class ElifNode : public Node {
+public:
+  ElifNode(Node* t, Node* s, Node* eifn) : Node(), test(t), suite(static_cast<SuiteNode*> (s)), elifNode(static_cast<ElifNode*> (eifn)) {}
+  virtual const Literal* eval() const;
+  ElifNode(const ElifNode&) = delete;
+  ElifNode& operator=(const ElifNode&) = delete;
+private:
+  Node* test;
+  SuiteNode* suite;
+  ElifNode* elifNode;
+};
+
 class IfNode : public Node {
 public:
-  IfNode(Node* t, Node* s, Node* es) : Node(), test(t), suite(static_cast<SuiteNode*> (s)), elseSuite(static_cast<SuiteNode*> (es)) {}
+  IfNode(Node* t, Node* s, Node* eif, Node* es) : Node(), test(t), suite(static_cast<SuiteNode*> (s)), elif(static_cast<ElifNode*> (eif)), elseSuite(static_cast<SuiteNode*> (es)) {}
   virtual const Literal* eval() const;
   IfNode(const IfNode&) = delete;
   IfNode& operator=(const IfNode&) = delete;
 private:
   Node* test;
   SuiteNode* suite;
+  ElifNode* elif;
   SuiteNode* elseSuite;
+};
+
+class WhileNode : public Node {
+public:
+  WhileNode(Node* t, Node* s) : Node(), test(t), suite(static_cast<SuiteNode*> (s)) {}
+  virtual const Literal* eval() const;
+  WhileNode(const WhileNode&) = delete;
+  WhileNode& operator=(const WhileNode&) = delete;
+private:
+  Node* test;
+  SuiteNode* suite;
 };
 
 class ReturnNode : public Node {
@@ -230,5 +254,11 @@ public:
 class NotEqualBinaryNode : public BinaryNode {
 public:
   NotEqualBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
+  virtual const Literal* eval() const;
+};
+
+class AndBinaryNode : public BinaryNode {
+public:
+  AndBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
   virtual const Literal* eval() const;
 };

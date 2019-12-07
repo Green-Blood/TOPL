@@ -22,7 +22,7 @@
 
 
 %token AMPEREQUAL AMPERSAND AND AS ASSERT AT BACKQUOTE BAR BREAK CIRCUMFLEX
-%token CIRCUMFLEXEQUAL CLASS COLON COMMA CONTINUE DEDENT DEF DEL DOT
+%token CIRCUMFLEXEQUAL CLASS COLON COMMA CONTINUE DEDENT DEF COMPONENT DEL DOT
 %token DOUBLESLASHEQUAL DOUBLESTAREQUAL ELIF ELSE ENDMARKER EQEQUAL
 %token EXCEPT EXEC FINALLY FOR FROM GLOBAL GREATER GREATEREQUAL GRLT
 %token IF IMPORT IN INDENT IS LAMBDA LBRACE LEFTSHIFTEQUAL LESS
@@ -41,7 +41,7 @@
 %type<node> small_stmt expr_stmt pick_yield_expr_testlist star_EQUAL
 %type<node> print_stmt opt_test
 %type<node> opt_yield_test pick_yield_expr_testlist_comp yield_expr testlist_comp comp_for star_COMMA_test opt_COMMA testlist
-%type<node> compound_stmt simple_stmt if_stmt funcdef stmt suite
+%type<node> compound_stmt simple_stmt if_stmt while_stmt star_ELIF funcdef stmt suite
 %type<node> star_trailer trailer
 %type<node> flow_stmt return_stmt
 %type<node> fpdef parameters opt_EQUAL_test
@@ -96,6 +96,12 @@ decorated // Used in: compound_stmt
   ;
 funcdef // Used in: decorated, compound_stmt
   : DEF NAME parameters COLON suite
+    {
+      $$ = new FuncNode($2, $3, $5);
+      pool.add($$);
+      delete [] $2;
+    }
+  | COMPONENT NAME parameters COLON suite
     {
       $$ = new FuncNode($2, $3, $5);
       pool.add($$);
@@ -468,7 +474,7 @@ compound_stmt // Used in: stmt
   : if_stmt
     { $$ = $1; }
   | while_stmt
-    { $$ = NULL; }
+    { $$ = $1; }
   | for_stmt
     { $$ = NULL; }
   | try_stmt
@@ -486,7 +492,7 @@ if_stmt // Used in: compound_stmt
   : IF test COLON suite star_ELIF ELSE COLON suite
     {
       if ($2) {
-        $$ = new IfNode($2, $4, $8);
+        $$ = new IfNode($2, $4, $5, $8);
         pool.add($$);
       }
       else {
@@ -496,7 +502,7 @@ if_stmt // Used in: compound_stmt
   | IF test COLON suite star_ELIF
     {
       if ($2) {
-        $$ = new IfNode($2, $4, NULL);
+        $$ = new IfNode($2, $4, $5, NULL);
         pool.add($$);
       }
       else {
@@ -506,11 +512,35 @@ if_stmt // Used in: compound_stmt
   ;
 star_ELIF // Used in: if_stmt, star_ELIF
   : star_ELIF ELIF test COLON suite
+    {
+      $$ = new ElifNode($3,$5,$1);
+      pool.add($$);
+    }
   | %empty
+    { $$=NULL;}
   ;
 while_stmt // Used in: compound_stmt
   : WHILE test COLON suite ELSE COLON suite
+  {
+    if ($2) {
+      $$ = new WhileNode($2, $4);
+      pool.add($$);
+    }
+    else {
+      std::cout << "SyntaxError: invalid syntax" << std::endl;
+    }
+  }
   | WHILE test COLON suite
+  {
+    if ($2) {
+      $$ = new WhileNode($2, $4);
+      pool.add($$);
+      //$$->eval();
+    }
+    else {
+      std::cout << "SyntaxError: invalid syntax" << std::endl;
+    }
+  }
   ;
 for_stmt // Used in: compound_stmt
   : FOR exprlist IN testlist COLON suite ELSE COLON suite
@@ -615,7 +645,9 @@ and_test // Used in: or_test, and_test
   : not_test
     { $$ = $1; }
   | and_test AND not_test
-    { $$ = NULL; }
+    { $$ = new AndBinaryNode($1, $3);
+      pool.add($$);
+    }
   ;
 not_test // Used in: and_test, not_test
   : NOT not_test

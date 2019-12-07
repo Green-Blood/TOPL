@@ -105,6 +105,36 @@ const Literal* PrintNode::eval() const {
   return NULL;
 }
 
+const Literal* WhileNode::eval() const {
+  int testFlag;
+  const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(test->eval());
+
+  if (ptr) {
+    testFlag = ptr->getValue();
+  }
+  else {
+    const FloatLiteral* fptr = static_cast<const FloatLiteral*>(test->eval());
+    testFlag = static_cast<int>(fptr->getValue());
+  }
+  const Literal* res = nullptr;
+
+  while (testFlag==1){
+    res = suite->eval();
+    const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(test->eval());
+    if (ptr) {
+      testFlag = ptr->getValue();
+    }
+    else {
+      const FloatLiteral* fptr = static_cast<const FloatLiteral*>(test->eval());
+      testFlag = static_cast<int>(fptr->getValue());
+    }
+  }
+
+
+  return res;
+}
+
+
 const Literal* IfNode::eval() const {
   int testFlag;
   const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(test->eval());
@@ -121,8 +151,47 @@ const Literal* IfNode::eval() const {
   if (testFlag) {
     res = suite->eval();
   }
-  else {
+
+  if(elif!=nullptr && res==nullptr) {
+    res = elif->eval();
+  }
+
+  if(elseSuite!=nullptr && res==nullptr){
     res = elseSuite->eval();
+  }
+
+
+  return res;
+}
+
+const Literal* ElifNode::eval() const {
+
+  const Literal* res = nullptr;
+  //If there is elifNode we try to evaluate it and if it return something we send result to the first call
+  if(elifNode!=nullptr){
+     res = elifNode->eval();
+     if(res!=nullptr){
+       return res;
+     }
+  }
+
+  int testFlag;
+  const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(test->eval());
+
+  if (ptr) {
+    testFlag = ptr->getValue();
+  }
+  else {
+    const FloatLiteral* fptr = static_cast<const FloatLiteral*>(test->eval());
+    testFlag = static_cast<int>(fptr->getValue());
+  }
+
+  if (testFlag) {
+    res = suite->eval();
+    //HERE is a problem sometimes(or always?) even executed suite returns null
+    if(res==nullptr){
+      std::cout<<"HERE"<<std::endl;
+    }
   }
 
   return res;
@@ -301,4 +370,13 @@ const Literal* NotEqualBinaryNode::eval() const {
   const Literal* x = left->eval();
   const Literal* y = right->eval();
   return (*x)!=(*y);
+}
+
+const Literal* AndBinaryNode::eval() const {
+  if (!left || !right) {
+    throw std::string("error");
+  }
+  const Literal* x = left->eval();
+  const Literal* y = right->eval();
+  return (*x)&&(*y);
 }
