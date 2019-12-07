@@ -911,7 +911,7 @@ trailer // Used in: star_trailer
       if ($2) {
         $$ = new ArgNode($2);
         delete $2;
-        pool.add($$);
+        pool.add($$); 
       }
     }
   | LSQB subscriptlist RSQB
