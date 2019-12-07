@@ -213,6 +213,7 @@ comment   #.*
 "assert"   { return ASSERT; }
 "break"    { return BREAK; }
 "class"    { return CLASS; }
+"comp"     { return COMPONENT; }
 "continue" { return CONTINUE; }
 "def"      { return DEF; }
 "del"      { return DEL; }

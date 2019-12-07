@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.4.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +30,9 @@
 
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
+
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
 
 #ifndef YY_YY_PARSE_TAB_H_INCLUDED
 # define YY_YY_PARSE_TAB_H_INCLUDED
@@ -62,83 +66,83 @@ extern int yydebug;
     CONTINUE = 272,
     DEDENT = 273,
     DEF = 274,
-    DEL = 275,
-    DOT = 276,
-    DOUBLESLASHEQUAL = 277,
-    DOUBLESTAREQUAL = 278,
-    ELIF = 279,
-    ELSE = 280,
-    ENDMARKER = 281,
-    EQEQUAL = 282,
-    EXCEPT = 283,
-    EXEC = 284,
-    FINALLY = 285,
-    FOR = 286,
-    FROM = 287,
-    GLOBAL = 288,
-    GREATER = 289,
-    GREATEREQUAL = 290,
-    GRLT = 291,
-    IF = 292,
-    IMPORT = 293,
-    IN = 294,
-    INDENT = 295,
-    IS = 296,
-    LAMBDA = 297,
-    LBRACE = 298,
-    LEFTSHIFTEQUAL = 299,
-    LESS = 300,
-    LESSEQUAL = 301,
-    LPAR = 302,
-    LSQB = 303,
-    MINEQUAL = 304,
-    NEWLINE = 305,
-    NOT = 306,
-    NOTEQUAL = 307,
-    NUMBER = 308,
-    OR = 309,
-    PASS = 310,
-    PERCENTEQUAL = 311,
-    PLUSEQUAL = 312,
-    PRINT = 313,
-    RAISE = 314,
-    RBRACE = 315,
-    RETURN = 316,
-    RIGHTSHIFTEQUAL = 317,
-    RPAR = 318,
-    RSQB = 319,
-    SEMI = 320,
-    SLASHEQUAL = 321,
-    STAREQUAL = 322,
-    STRING = 323,
-    TILDE = 324,
-    TRY = 325,
-    VBAREQUAL = 326,
-    WHILE = 327,
-    WITH = 328,
-    YIELD = 329,
-    INT = 330,
-    FLOAT = 331,
-    NAME = 332,
-    EQUAL = 333,
-    LEFTSHIFT = 334,
-    RIGHTSHIFT = 335,
-    PLUS = 336,
-    MINUS = 337,
-    STAR = 338,
-    SLASH = 339,
-    PERCENT = 340,
-    DOUBLESLASH = 341,
-    DOUBLESTAR = 342
+    COMPONENT = 275,
+    DEL = 276,
+    DOT = 277,
+    DOUBLESLASHEQUAL = 278,
+    DOUBLESTAREQUAL = 279,
+    ELIF = 280,
+    ELSE = 281,
+    ENDMARKER = 282,
+    EQEQUAL = 283,
+    EXCEPT = 284,
+    EXEC = 285,
+    FINALLY = 286,
+    FOR = 287,
+    FROM = 288,
+    GLOBAL = 289,
+    GREATER = 290,
+    GREATEREQUAL = 291,
+    GRLT = 292,
+    IF = 293,
+    IMPORT = 294,
+    IN = 295,
+    INDENT = 296,
+    IS = 297,
+    LAMBDA = 298,
+    LBRACE = 299,
+    LEFTSHIFTEQUAL = 300,
+    LESS = 301,
+    LESSEQUAL = 302,
+    LPAR = 303,
+    LSQB = 304,
+    MINEQUAL = 305,
+    NEWLINE = 306,
+    NOT = 307,
+    NOTEQUAL = 308,
+    NUMBER = 309,
+    OR = 310,
+    PASS = 311,
+    PERCENTEQUAL = 312,
+    PLUSEQUAL = 313,
+    PRINT = 314,
+    RAISE = 315,
+    RBRACE = 316,
+    RETURN = 317,
+    RIGHTSHIFTEQUAL = 318,
+    RPAR = 319,
+    RSQB = 320,
+    SEMI = 321,
+    SLASHEQUAL = 322,
+    STAREQUAL = 323,
+    STRING = 324,
+    TILDE = 325,
+    TRY = 326,
+    VBAREQUAL = 327,
+    WHILE = 328,
+    WITH = 329,
+    YIELD = 330,
+    INT = 331,
+    FLOAT = 332,
+    NAME = 333,
+    EQUAL = 334,
+    LEFTSHIFT = 335,
+    RIGHTSHIFT = 336,
+    PLUS = 337,
+    MINUS = 338,
+    STAR = 339,
+    SLASH = 340,
+    PERCENT = 341,
+    DOUBLESLASH = 342,
+    DOUBLESTAR = 343
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
 union YYSTYPE
 {
-#line 15 "includes/parse.y" /* yacc.c:1909  */
+#line 15 "includes/parse.y"
 
   Node* node;
   int intNumber;
@@ -146,9 +150,9 @@ union YYSTYPE
   char *name;
   std::vector<Node*>* vec;
 
-#line 150 "parse.tab.h" /* yacc.c:1909  */
-};
+#line 154 "parse.tab.h"
 
+};
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

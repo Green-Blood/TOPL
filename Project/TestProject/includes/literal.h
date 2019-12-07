@@ -70,6 +70,10 @@ public:
   virtual const Literal* opNotEqual(long double) const =0;
   virtual const Literal* opNotEqual(int) const =0;
 
+  virtual const Literal* operator&&(const Literal& rhs) const =0;
+  virtual const Literal* opAndEqual(long double) const =0;
+  virtual const Literal* opAndEqual(int) const =0;
+
   virtual const Literal* eval() const = 0;
   virtual void print() const {
     std::cout << "No Way" << std::endl;
@@ -296,6 +300,30 @@ public:
     return node;
   }
 
+  virtual const Literal* operator&&(const Literal& rhs) const {
+    return rhs.opAndEqual(val);
+  }
+  virtual const Literal* opAndEqual(long double lhs) const {
+
+    int accept=1;
+    if ((std::abs(lhs) < 1e-6)||(std::abs(val) < 1e-6)) {
+      accept=0;
+    }
+    const Literal* node = new FloatLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opAndEqual(int lhs) const {
+    int accept=1;
+    if ((lhs==0)||(std::abs(val) < 1e-6)) {
+      accept=0;
+    }
+    const Literal* node = new FloatLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+
   virtual const Literal* eval() const { return this; }
   virtual void print() const {
     if (std::abs(std::floor(val) - val) < 1e-6 && val < 1e+16) {
@@ -309,6 +337,11 @@ public:
 private:
   long double val;
 };
+
+
+
+
+
 
 
 class IntLiteral: public Literal {
@@ -536,9 +569,26 @@ public:
     return node;
   }
 
+  virtual const Literal* operator&&(const Literal& rhs) const {
+    return rhs.opAndEqual(val);
+  }
+  virtual const Literal* opAndEqual(long double lhs) const {
+    int accept=1;
+    if ((val==0)||(std::abs(lhs) < 1e-6)) {
+      accept=0;
+    }
+    const Literal* node = new IntLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opAndEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs && val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
   virtual const Literal* eval() const { return this; }
   virtual void print() const {
-    // std::cout << "The result is: " << val << std::endl;
     std::cout << val << std::endl;
   }
   int getValue() const { return val; }
