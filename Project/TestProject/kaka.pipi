@@ -49,3 +49,22 @@ print(123.4^122)
 print(123.4^122.4)
 print(123^122.5)
 
+i=5
+i^=4
+print(i)
+
+i=21
+i|=10
+print(i)
+
+i=21
+i&=11
+print(i)
+
+print(1===1)
+print(1.0===1)
+print(1===1.0)
+print(1.0===1.0)
+
+
+

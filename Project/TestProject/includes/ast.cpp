@@ -365,6 +365,15 @@ const Literal* EqEqualBinaryNode::eval() const {
   return (*x)==(*y);
 }
 
+const Literal* EqEqEqualBinaryNode::eval() const {
+  if (!left || !right) {
+    throw std::string("error");
+  }
+  const Literal* x = left->eval();
+  const Literal* y = right->eval();
+  return x->EqEqEq(*y);
+}
+
 const Literal* LessBinaryNode::eval() const {
   if (!left || !right) {
     throw std::string("error");

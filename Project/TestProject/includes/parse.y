@@ -24,7 +24,7 @@
 
 %token AMPEREQUAL AMPERSAND AND AS ASSERT AT BACKQUOTE BAR BREAK CIRCUMFLEX
 %token CIRCUMFLEXEQUAL CLASS COLON COMMA CONTINUE DEDENT DEF COMPONENT DEL DOT
-%token DOUBLESLASHEQUAL DOUBLESTAREQUAL ELIF ELSE ENDMARKER EQEQUAL
+%token DOUBLESLASHEQUAL DOUBLESTAREQUAL ELIF ELSE ENDMARKER EQEQUAL EQEQEQUAL
 %token EXCEPT EXEC FINALLY FOR FROM GLOBAL GREATER GREATEREQUAL GRLT
 %token IF IMPORT IN INDENT IS LAMBDA LBRACE LEFTSHIFTEQUAL LESS
 %token LESSEQUAL LPAR LSQB MINEQUAL NEWLINE NOT NOTEQUAL NUMBER
@@ -276,6 +276,24 @@ expr_stmt // Used in: small_stmt
           break;
         case DOUBLESLASHEQUAL:
           temp = new FlrDivBinaryNode($1, $3);
+          $$ = new AsgBinaryNode($1, temp);
+          pool.add(temp);
+          pool.add($$);
+          break;
+        case AMPEREQUAL:
+          temp = new AmpersandBinaryNode($1, $3);
+          $$ = new AsgBinaryNode($1, temp);
+          pool.add(temp);
+          pool.add($$);
+          break;
+        case VBAREQUAL:
+          temp = new BarBinaryNode($1, $3);
+          $$ = new AsgBinaryNode($1, temp);
+          pool.add(temp);
+          pool.add($$);
+          break;
+        case CIRCUMFLEXEQUAL:
+          temp = new XorBinaryNode($1, $3);
           $$ = new AsgBinaryNode($1, temp);
           pool.add(temp);
           pool.add($$);
@@ -536,7 +554,6 @@ while_stmt // Used in: compound_stmt
     if ($2) {
       $$ = new WhileNode($2, $4);
       pool.add($$);
-      //$$->eval();
     }
     else {
       std::cout << "SyntaxError: invalid syntax" << std::endl;
@@ -670,6 +687,10 @@ comparison // Used in: not_test, comparison
           $$ = new EqEqualBinaryNode($1, $3);
           pool.add($$);
           break;
+        case EQEQEQUAL:
+          $$ = new EqEqEqualBinaryNode($1, $3);
+          pool.add($$);
+          break;
         case LESS:
           $$ = new LessBinaryNode($1, $3);
           pool.add($$);
@@ -706,6 +727,8 @@ comp_op // Used in: comparison
     { $$ = GREATER; }
   | EQEQUAL
     { $$ = EQEQUAL; }
+  | EQEQEQUAL
+    { $$ = EQEQEQUAL; }
   | GREATEREQUAL
     { $$ = GREATEREQUAL; }
   | LESSEQUAL
