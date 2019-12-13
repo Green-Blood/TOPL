@@ -39,6 +39,10 @@ public:
   virtual const Literal* opPow(long double) const =0;
   virtual const Literal* opPow(int) const =0;
 
+  virtual const Literal* EqEqEq(const Literal& rhs) const =0;
+  virtual const Literal* opEqEqEqual(long double) const =0;
+  virtual const Literal* opEqEqEqual(int) const =0;
+
   virtual const Literal* operator<<(const Literal& rhs) const =0;
   virtual const Literal* opLshift(long double) const =0;
   virtual const Literal* opLshift(int) const =0;
@@ -155,6 +159,7 @@ public:
   virtual const Literal* opDiv(int lhs) const  {
     if ( val == 0 ) throw std::string("Zero Division Error");
     const Literal* node = new FloatLiteral(lhs / val);
+
     PoolOfNodes::getInstance().add(node);
     return node;
   }
@@ -243,6 +248,24 @@ public:
   }
   virtual const Literal* opEqEqual(int lhs) const {
     const Literal* node = new FloatLiteral(std::floor(val) == lhs);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* EqEqEq(const Literal& rhs) const {
+    return rhs.opEqEqEqual(val);
+  }
+  virtual const Literal* opEqEqEqual(long double lhs) const {
+    int equalFlag = 0;
+    if (std::abs(lhs - val) < 1e-6) {
+      equalFlag = 1;
+    }
+    const Literal* node = new FloatLiteral(equalFlag);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opEqEqEqual(int lhs) const {
+    const Literal* node = new FloatLiteral(0);
     PoolOfNodes::getInstance().add(node);
     return node;
   }
@@ -574,6 +597,21 @@ public:
     PoolOfNodes::getInstance().add(node);
     return node;
   }
+
+  virtual const Literal* EqEqEq(const Literal& rhs) const {
+    return rhs.opEqEqEqual(val);
+  }
+  virtual const Literal* opEqEqEqual(long double lhs) const {
+    const Literal* node = new IntLiteral(0);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opEqEqEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs == val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
 
   virtual const Literal* operator<(const Literal& rhs) const {
     return rhs.opLess(val);

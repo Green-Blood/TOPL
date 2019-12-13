@@ -181,6 +181,8 @@ comment   #.*
 ">="       { return GREATEREQUAL; }
 "<>"       { return GRLT; }
 
+"==="      { return EQEQEQUAL; }
+
 "~"        { return TILDE; }
 "^"        { return CIRCUMFLEX; }
 "<<"       { return LEFTSHIFT; }

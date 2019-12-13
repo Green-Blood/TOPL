@@ -233,6 +233,12 @@ public:
   virtual const Literal* eval() const;
 };
 
+class EqEqEqualBinaryNode : public BinaryNode {
+public:
+  EqEqEqualBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
+  virtual const Literal* eval() const;
+};
+
 class LessBinaryNode : public BinaryNode {
 public:
   LessBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
