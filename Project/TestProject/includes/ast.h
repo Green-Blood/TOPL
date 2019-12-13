@@ -148,6 +148,12 @@ public:
   virtual const Literal* eval() const;
 };
 
+class NotUnaryNode : public UnaryNode {
+public:
+  NotUnaryNode(Node* right) : UnaryNode(right) {}
+  virtual const Literal* eval() const;
+};
+
 class BinaryNode : public Node {
 public:
   BinaryNode(Node* l, Node* r) : Node(), left(l), right(r) {}
@@ -260,5 +266,29 @@ public:
 class AndBinaryNode : public BinaryNode {
 public:
   AndBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
+  virtual const Literal* eval() const;
+};
+
+class OrBinaryNode : public BinaryNode {
+public:
+  OrBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
+  virtual const Literal* eval() const;
+};
+
+class AmpersandBinaryNode : public BinaryNode {
+public:
+  AmpersandBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
+  virtual const Literal* eval() const;
+};
+
+class BarBinaryNode : public BinaryNode {
+public:
+  BarBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
+  virtual const Literal* eval() const;
+};
+
+class XorBinaryNode : public BinaryNode {
+public:
+  XorBinaryNode(Node* left, Node* right) : BinaryNode(left, right) {}
   virtual const Literal* eval() const;
 };

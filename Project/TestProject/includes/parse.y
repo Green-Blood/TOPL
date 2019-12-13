@@ -17,6 +17,7 @@
   int intNumber;
   long double fltNumber;
   char *name;
+  //std::string str;
   std::vector<Node*>* vec;
 }
 
@@ -639,7 +640,9 @@ or_test // Used in: old_test, test, opt_IF_ELSE, or_test, comp_for
   : and_test
     { $$ = $1; }
   | or_test OR and_test
-    { $$ = NULL; }
+    { $$ = new OrBinaryNode($1, $3);
+      pool.add($$);
+    }
   ;
 and_test // Used in: or_test, and_test
   : not_test
@@ -651,7 +654,9 @@ and_test // Used in: or_test, and_test
   ;
 not_test // Used in: and_test, not_test
   : NOT not_test
-    { $$ = NULL; }
+    {
+    $$ = new NotUnaryNode($2);
+    pool.add($$); }
   | comparison
     { $$ = $1; }
   ;
@@ -722,16 +727,28 @@ expr // Used in: exec_stmt, with_item, comparison, expr, exprlist, star_COMMA_ex
   : xor_expr
     { $$ = $1; }
   | expr BAR xor_expr
+    {
+      $$ = new BarBinaryNode($1, $3);
+      pool.add($$);
+    }
   ;
 xor_expr // Used in: expr, xor_expr
   : and_expr
     { $$ = $1; }
   | xor_expr CIRCUMFLEX and_expr
+    {
+      $$ = new XorBinaryNode($1, $3);
+      pool.add($$);
+    }
   ;
 and_expr // Used in: xor_expr, and_expr
   : shift_expr
     { $$ = $1; }
   | and_expr AMPERSAND shift_expr
+    {
+      $$ = new AmpersandBinaryNode($1, $3);
+      pool.add($$);
+    }
   ;
 shift_expr // Used in: and_expr, shift_expr
   : arith_expr
@@ -922,6 +939,10 @@ opt_dictorsetmaker // Used in: atom
 plus_STRING // Used in: atom, plus_STRING
   : plus_STRING STRING
   | STRING
+  {
+    //$$ = new StringLiteral($1);
+    //pool.add($$);
+  }
   ;
 listmaker // Used in: opt_listmaker
   : test list_for

@@ -148,9 +148,10 @@ union YYSTYPE
   int intNumber;
   long double fltNumber;
   char *name;
+  //std::string str;
   std::vector<Node*>* vec;
 
-#line 154 "parse.tab.h"
+#line 155 "parse.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
