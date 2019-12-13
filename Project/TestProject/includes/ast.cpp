@@ -151,13 +151,14 @@ const Literal* IfNode::eval() const {
   if (testFlag) {
     res = suite->eval();
   }
+  else{
+    if(elif!=nullptr) {
+      res = elif->eval();
+    }
 
-  if(elif!=nullptr && res==nullptr) {
-    res = elif->eval();
-  }
-
-  if(elseSuite!=nullptr && res==nullptr){
-    res = elseSuite->eval();
+    if(elseSuite!=nullptr && res==nullptr){
+      res = elseSuite->eval();
+    }
   }
 
 
@@ -191,6 +192,18 @@ const Literal* ElifNode::eval() const {
     //HERE is a problem sometimes(or always?) even executed suite returns null
     if(res==nullptr){
       std::cout<<"HERE"<<std::endl;
+      res = new IntLiteral();
+
+      /*
+      const Literal* node = new IntLiteral();
+      const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(node);
+      if (ptr->isEmpty()){
+        std::cout<<"Qwertyui"<<std::endl;
+      }
+      else{
+        std::cout<<"KJHGFD"<<std::endl;
+      }
+      */
     }
   }
 
@@ -222,6 +235,31 @@ const Literal* TildeUnaryNode::eval() const {
   const Literal* x = right->eval();
   const Literal* minusOne = new IntLiteral(-1);
   return *minusOne-(*x);
+}
+
+const Literal* NotUnaryNode::eval() const {
+  if (!right) {
+    throw std::string("error");
+  }
+
+  int testFlag;
+  const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(right->eval());
+
+  if (ptr) {
+    testFlag = ptr->getValue();
+  }
+  else {
+    const FloatLiteral* fptr = static_cast<const FloatLiteral*>(right->eval());
+    testFlag = static_cast<int>(fptr->getValue());
+  }
+  const Literal* res = nullptr;
+
+  if(testFlag==0){
+    res = new IntLiteral(1);
+  }else{
+    res = new IntLiteral(0);
+  }
+  return res;
 }
 
 AsgBinaryNode::AsgBinaryNode(Node* left, Node* right) :
@@ -379,4 +417,43 @@ const Literal* AndBinaryNode::eval() const {
   const Literal* x = left->eval();
   const Literal* y = right->eval();
   return (*x)&&(*y);
+}
+
+const Literal* OrBinaryNode::eval() const {
+  if (!left || !right) {
+    throw std::string("error");
+  }
+  const Literal* x = left->eval();
+  const Literal* y = right->eval();
+  return (*x)||(*y);
+}
+
+const Literal* AmpersandBinaryNode::eval() const {
+  if (!left || !right) {
+    throw std::string("error");
+  }
+  const Literal* x = left->eval();
+  const Literal* y = right->eval();
+
+  return (*x)&(*y);
+}
+
+const Literal* BarBinaryNode::eval() const {
+  if (!left || !right) {
+    throw std::string("error");
+  }
+  const Literal* x = left->eval();
+  const Literal* y = right->eval();
+
+  return (*x)|(*y);
+}
+
+const Literal* XorBinaryNode::eval() const {
+  if (!left || !right) {
+    throw std::string("error");
+  }
+  const Literal* x = left->eval();
+  const Literal* y = right->eval();
+
+  return (*x)^(*y);
 }
