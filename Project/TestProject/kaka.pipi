@@ -1,5 +1,42 @@
-a="ASDF"
+print("Hello " + "World!")
+print("1"==="1")
+print(1.0==="1")
+print(1==="1")
+print("1"===1)
+print("1"===1.0)
+print(1===1.0)
+print(1.0===1)
+print(1.0===1.0)
+print(1===1)
+print("1"==="11111")
+print("2"=="1")
+print("1"=="11111")
+print("2"=="1")
+print("1"=="1")
+
+print(123=="123")
+print(123=="123abc")
+print(123=="1232")
+
+print("123"==123)
+print("123abc"==123)
+print("1232"==123)
+
+print("123"!="123")
+print("1"!="2")
+
+print("123"+2.2)
+print("123"+2)
+
+print(2.2+"123")
+print(2+"123")
+
+print("2.2"==2.2)
+print("2.2abc"==2.2)
+print("2.22"==2.2)
+
+print(2.2=="2.2")
+print(2.2=="2.2abc")
+print(2.2=="2.22")
 
 
-
-print(123+"234")
