@@ -126,8 +126,7 @@ comment   #.*
 %%
 
 
-"print_function"            { /* Hack to allow 2.7 use 3.x print-style function call */
-                              tok->print_name_hack = true; return NAME; }
+
 
 {comment}                   { ; }
 {spaces}                    { ; }

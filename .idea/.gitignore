@@ -1,4 +1,12 @@
 /Project/TestProject/Makefile
 /Project/TestProject/ast.o
+/Project/TestProject/lex.yy.c
+/Project/TestProject/lex.yy.o
+/Project/TestProject/parse.tab.c
+/Project/TestProject/parse.tab.h
+/Project/TestProject/parse.tab.o
+/Project/TestProject/PyScript
+/Project/TestProject/functionTable.o
+/Project/TestProject/main.o
 # Default ignored files
 /workspace.xml
