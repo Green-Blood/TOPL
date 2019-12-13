@@ -5,6 +5,7 @@
 #include <iomanip>
 
 class IntLiteral;
+class StringLiteral;
 
 class Literal : public Node {
 public:
@@ -73,6 +74,22 @@ public:
   virtual const Literal* operator&&(const Literal& rhs) const =0;
   virtual const Literal* opAndEqual(long double) const =0;
   virtual const Literal* opAndEqual(int) const =0;
+
+  virtual const Literal* operator||(const Literal& rhs) const =0;
+  virtual const Literal* opOrEqual(long double) const =0;
+  virtual const Literal* opOrEqual(int) const =0;
+
+  virtual const Literal* operator&(const Literal& rhs) const =0;
+  virtual const Literal* opAmpersandEqual(long double) const =0;
+  virtual const Literal* opAmpersandEqual(int) const =0;
+
+  virtual const Literal* operator|(const Literal& rhs) const =0;
+  virtual const Literal* opBarEqual(long double) const =0;
+  virtual const Literal* opBarEqual(int) const =0;
+
+  virtual const Literal* operator^(const Literal& rhs) const =0;
+  virtual const Literal* opXorEqual(long double) const =0;
+  virtual const Literal* opXorEqual(int) const =0;
 
   virtual const Literal* eval() const = 0;
   virtual void print() const {
@@ -323,6 +340,64 @@ public:
     return node;
   }
 
+  virtual const Literal* operator||(const Literal& rhs) const {
+    return rhs.opOrEqual(val);
+  }
+  virtual const Literal* opOrEqual(long double lhs) const {
+
+    int accept=0;
+    if ((std::abs(lhs) > 1e-6)||(std::abs(val) > 1e-6)) {
+      accept=1;
+    }
+    const Literal* node = new FloatLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opOrEqual(int lhs) const {
+    int accept=0;
+    if ((lhs!=0)||(std::abs(val) > 1e-6)) {
+      accept=1;
+    }
+    const Literal* node = new FloatLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator&(const Literal& rhs) const {
+    return rhs.opAmpersandEqual(val);
+  }
+  virtual const Literal* opAmpersandEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for &: 'float' and 'float'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opAmpersandEqual(int lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for &: 'int' and 'float'" << std::endl;
+    return NULL;
+  }
+
+  virtual const Literal* operator|(const Literal& rhs) const {
+    return rhs.opBarEqual(val);
+  }
+  virtual const Literal* opBarEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'float' and 'float'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opBarEqual(int lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'int' and 'float'" << std::endl;
+    return NULL;
+  }
+
+  virtual const Literal* operator^(const Literal& rhs) const {
+    return rhs.opXorEqual(val);
+  }
+  virtual const Literal* opXorEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'float' and 'float'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opXorEqual(int lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'int' and 'float'" << std::endl;
+    return NULL;
+  }
 
   virtual const Literal* eval() const { return this; }
   virtual void print() const {
@@ -346,7 +421,8 @@ private:
 
 class IntLiteral: public Literal {
 public:
-  IntLiteral(int _val): val(_val) {}
+  IntLiteral(int _val): val(_val),empty(false) {}
+  IntLiteral(): empty(true) {}
 
   virtual const Literal* operator+(const Literal& rhs) const  {
     return rhs.opPlus(val);
@@ -472,7 +548,7 @@ public:
     return rhs.opRshift(val);
   }
   virtual const Literal* opRshift(long double lhs) const {
-    std::cout << "TypeError: unsupported operand type(s) for <<: 'float' and 'int'" << std::endl;
+    std::cout << "TypeError: unsupported operand type(s) for <<: 'int' and 'float'" << std::endl;
     return NULL;
   }
   virtual const Literal* opRshift(int lhs) const {
@@ -587,11 +663,73 @@ public:
     return node;
   }
 
+  virtual const Literal* operator||(const Literal& rhs) const {
+    return rhs.opOrEqual(val);
+  }
+  virtual const Literal* opOrEqual(long double lhs) const {
+    int accept=0;
+    if ((val==1)||(std::abs(lhs) > 1e-6)) {
+      accept=1;
+    }
+    const Literal* node = new IntLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opOrEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs || val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+ virtual const Literal* operator&(const Literal& rhs) const {
+    return rhs.opAmpersandEqual(val);
+ }
+ virtual const Literal* opAmpersandEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for &: 'float' and 'int'" << std::endl;
+    return NULL;
+  }
+ virtual const Literal* opAmpersandEqual(int lhs) const {
+   const Literal* node = new IntLiteral(lhs&val);
+   PoolOfNodes::getInstance().add(node);
+   return node;
+ }
+
+  virtual const Literal* operator|(const Literal& rhs) const {
+    return rhs.opBarEqual(val);
+  }
+  virtual const Literal* opBarEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'float' and 'int'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opBarEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs|val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator^(const Literal& rhs) const {
+    return rhs.opXorEqual(val);
+  }
+  virtual const Literal* opXorEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'float' and 'int'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opXorEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs^val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+
   virtual const Literal* eval() const { return this; }
   virtual void print() const {
     std::cout << val << std::endl;
   }
   int getValue() const { return val; }
+  bool isEmpty() const { return empty; }
 private:
   int val;
+  bool empty;
 };
+
+
