@@ -1419,7 +1419,7 @@ YY_RULE_SETUP
 case 83:
 YY_RULE_SETUP
 #line 233 "includes/scan.l"
-{ if (tok->print_name_hack) return NAME; else return PRINT; }
+{ return PRINT; }
 	YY_BREAK
 case 84:
 YY_RULE_SETUP

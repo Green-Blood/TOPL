@@ -230,7 +230,7 @@ comment   #.*
 "is"       { return IS; }
 "lambda"   { return LAMBDA; }
 "pass"     { return PASS; }
-"print"    { if (tok->print_name_hack) return NAME; else return PRINT; }
+"print"    { return PRINT; }
 "raise"    { return RAISE; }
 "return"   { return RETURN; }
 "try"      { return TRY; }
