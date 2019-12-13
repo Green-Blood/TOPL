@@ -79,6 +79,7 @@ def runFile():
 
             os.remove("out.txt")
             shellLabel.pack()
+        #Throwing an exception
         except Exception as e:
             print("Exc", e)
 
@@ -98,6 +99,7 @@ def shell():
         elif platform.system() == 'Darwin':
             os.system('open -a Terminal')
         root.destroy()
+    
 # Menu options
 
 menu = Menu(root)
