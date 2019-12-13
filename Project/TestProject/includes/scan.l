@@ -148,7 +148,7 @@ comment   #.*
 <LONG_STRING,LONG_STRING2>.            { ; }
 <LONG_STRING,LONG_STRING2><<EOF>>      { display_error("unterminated long string at EOF"); }
 
-{string}   { return STRING; }
+{string}   { yylval.name = strdup(yytext); return STRING; }
 
 
 "("        { left_enclose();  return LPAR; }

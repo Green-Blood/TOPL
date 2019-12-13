@@ -1,6 +1,6 @@
 CCC = g++
 LEX = flex
-YACC = bison 
+YACC = /usr/local/Cellar/bison/3.4.2/bin/bison
 CFLAGS = -g -std=c++11 -W -Wall -Wno-unused -Weffc++ -Wextra -pedantic -O0
 LEXFLAGS = -Wno-unused -Wno-sign-compare -Wno-deprecated-register
 YACCDEBUG = -vtd

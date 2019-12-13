@@ -3,6 +3,8 @@
 #include "tableManager.h"
 #include <cmath>
 #include <iomanip>
+#include <string>
+
 
 class IntLiteral;
 class StringLiteral;
@@ -14,6 +16,7 @@ public:
   virtual const Literal* operator+(const Literal& rhs) const =0;
   virtual const Literal* opPlus(long double) const =0;
   virtual const Literal* opPlus(int) const =0;
+  virtual const Literal* opPlus(std::string) const =0;
 
   virtual const Literal* operator*(const Literal& rhs) const =0;
   virtual const Literal* opMult(long double) const =0;
@@ -101,6 +104,13 @@ public:
   }
 };
 
+
+
+const Literal* literize(std::string val);
+
+
+
+
 class FloatLiteral: public Literal {
 public:
   FloatLiteral(long double _val): val(_val) {}
@@ -115,6 +125,12 @@ public:
   }
   virtual const Literal* opPlus(int lhs) const  {
     const Literal* node = new FloatLiteral(lhs + val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opPlus(std::string lhs) const {
+
+    const Literal* node = literize(lhs + std::to_string(val));
     PoolOfNodes::getInstance().add(node);
     return node;
   }
@@ -460,6 +476,12 @@ public:
     PoolOfNodes::getInstance().add(node);
     return node;
   }
+  virtual const Literal* opPlus(std::string lhs) const {
+
+    const Literal* node = literize(lhs + std::to_string(val));
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
 
   virtual const Literal* operator-(const Literal& rhs) const  {
     return rhs.opSubt(val);
@@ -770,4 +792,345 @@ private:
   bool empty;
 };
 
+
+
+class StringLiteral: public Literal {
+public:
+  StringLiteral(const std::string& _val) : val2(_val){
+    std::cout<<"Hi "<<val2<<std::endl;
+  }
+
+  virtual const Literal* operator+(const Literal& rhs) const  {
+    return rhs.opPlus(val);
+  }
+  virtual const Literal* opPlus(long double lhs) const  {
+    const Literal* node = new FloatLiteral(static_cast<long double>(val) + lhs);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opPlus(int lhs) const  {
+    const Literal* node = new IntLiteral(lhs + val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* opPlus(std::string lhs) const {
+
+    const Literal* node = new StringLiteral(lhs + val2);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* operator-(const Literal& rhs) const  {
+    return rhs.opSubt(val);
+  }
+  virtual const Literal* opSubt(long double lhs) const  {
+    const Literal* node = new FloatLiteral(lhs - val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opSubt(int lhs) const  {
+    const Literal* node = new IntLiteral(lhs - val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator*(const Literal& rhs) const  {
+    return rhs.opMult(val);
+  }
+  virtual const Literal* opMult(long double lhs) const  {
+    const Literal* node = new FloatLiteral(lhs * val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opMult(int lhs) const  {
+    const Literal* node = new IntLiteral(lhs * val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator/(const Literal& rhs) const  {
+    return rhs.opDiv(val);
+  }
+  virtual const Literal* opDiv(long double lhs) const  {
+    if ( val == 0 ) throw std::string("Zero Division Error");
+    const Literal* node = new FloatLiteral(lhs / val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opDiv(int lhs) const  {
+    if ( val == 0 ) throw std::string("Zero Division Error");
+    int res = lhs / val;
+    if (lhs * val < 0) {
+      if (lhs % val != 0) {
+        res--;
+      }
+    }
+    const Literal* node = new IntLiteral(res);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator%(const Literal& rhs) const {
+    return rhs.opMod(val);
+  }
+  virtual const Literal* opMod(long double lhs) const {
+    if ( val == 0 ) throw std::string("Zero Division Error");
+    const Literal* node = new FloatLiteral(std::fmod(std::fmod(lhs, val) + val, val));
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opMod(int lhs) const {
+    if ( val == 0 ) throw std::string("Zero Division Error");
+    const Literal* node = new IntLiteral((lhs % val + val) % val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* floorDivide(const Literal& rhs) const {
+    return rhs.opFlrDiv(val);
+  }
+  virtual const Literal* opFlrDiv(long double lhs) const {
+    if ( val == 0) throw std::string("Zero Division Error");
+    const Literal* node = new FloatLiteral(std::floor(lhs / val));
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opFlrDiv(int lhs) const {
+    return opDiv(lhs);
+  }
+
+  virtual const Literal* pow(const Literal& rhs) const {
+    return rhs.opPow(val);
+  }
+  virtual const Literal* opPow(long double lhs) const {
+    const Literal* node = new FloatLiteral(std::pow(lhs, val));
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opPow(int lhs) const {
+    const Literal* node = new IntLiteral(std::pow(lhs, val));
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator<<(const Literal& rhs) const {
+    return rhs.opLshift(val);
+  }
+  virtual const Literal* opLshift(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for <<: 'float' and 'int'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opLshift(int lhs) const {
+    const Literal* node = new IntLiteral(lhs * std::pow(2, val));
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator>>(const Literal& rhs) const {
+    return rhs.opRshift(val);
+  }
+  virtual const Literal* opRshift(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for <<: 'int' and 'float'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opRshift(int lhs) const {
+    const Literal* node = new IntLiteral(lhs / std::pow(2, val));
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator==(const Literal& rhs) const {
+    return rhs.opEqEqual(val);
+  }
+  virtual const Literal* opEqEqual(long double lhs) const {
+    int equalFlag = 0;
+    if (std::abs(lhs - val) < 1e-6) {
+      equalFlag = 1;
+    }
+    const Literal* node = new IntLiteral(equalFlag);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opEqEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs == val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* EqEqEq(const Literal& rhs) const {
+    return rhs.opEqEqEqual(val);
+  }
+  virtual const Literal* opEqEqEqual(long double lhs) const {
+    const Literal* node = new IntLiteral(0);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opEqEqEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs == val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+
+  virtual const Literal* operator<(const Literal& rhs) const {
+    return rhs.opLess(val);
+  }
+  virtual const Literal* opLess(long double lhs) const {
+    const Literal* node = new IntLiteral(lhs < val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opLess(int lhs) const {
+    const Literal* node = new IntLiteral(lhs < val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator>(const Literal& rhs) const {
+    return rhs.opGreater(val);
+  }
+  virtual const Literal* opGreater(long double lhs) const {
+    const Literal* node = new IntLiteral(lhs > val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opGreater(int lhs) const {
+    const Literal* node = new IntLiteral(lhs > val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator<=(const Literal& rhs) const {
+    return rhs.opLessEqual(val);
+  }
+  virtual const Literal* opLessEqual(long double lhs) const {
+    const Literal* node = new IntLiteral(lhs <= val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opLessEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs <= val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator>=(const Literal& rhs) const {
+    return rhs.opGreaterEqual(val);
+  }
+  virtual const Literal* opGreaterEqual(long double lhs) const {
+    const Literal* node = new IntLiteral(lhs >= val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opGreaterEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs >= val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator!=(const Literal& rhs) const {
+    return rhs.opNotEqual(val);
+  }
+  virtual const Literal* opNotEqual(long double lhs) const {
+    const Literal* node = new IntLiteral(std::floor(lhs) != val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opNotEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs != val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator&&(const Literal& rhs) const {
+    return rhs.opAndEqual(val);
+  }
+  virtual const Literal* opAndEqual(long double lhs) const {
+    int accept=1;
+    if ((val==0)||(std::abs(lhs) < 1e-6)) {
+      accept=0;
+    }
+    const Literal* node = new IntLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opAndEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs && val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator||(const Literal& rhs) const {
+    return rhs.opOrEqual(val);
+  }
+  virtual const Literal* opOrEqual(long double lhs) const {
+    int accept=0;
+    if ((val==1)||(std::abs(lhs) > 1e-6)) {
+      accept=1;
+    }
+    const Literal* node = new IntLiteral(accept);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+  virtual const Literal* opOrEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs || val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+ virtual const Literal* operator&(const Literal& rhs) const {
+    return rhs.opAmpersandEqual(val);
+ }
+ virtual const Literal* opAmpersandEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for &: 'float' and 'int'" << std::endl;
+    return NULL;
+  }
+ virtual const Literal* opAmpersandEqual(int lhs) const {
+   const Literal* node = new IntLiteral(lhs&val);
+   PoolOfNodes::getInstance().add(node);
+   return node;
+ }
+
+  virtual const Literal* operator|(const Literal& rhs) const {
+    return rhs.opBarEqual(val);
+  }
+  virtual const Literal* opBarEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'float' and 'int'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opBarEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs|val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+  virtual const Literal* operator^(const Literal& rhs) const {
+    return rhs.opXorEqual(val);
+  }
+  virtual const Literal* opXorEqual(long double lhs) const {
+    std::cout << "TypeError: unsupported operand type(s) for |: 'float' and 'int'" << std::endl;
+    return NULL;
+  }
+  virtual const Literal* opXorEqual(int lhs) const {
+    const Literal* node = new IntLiteral(lhs^val);
+    PoolOfNodes::getInstance().add(node);
+    return node;
+  }
+
+
+  virtual const Literal* eval() const { return this; }
+  virtual void print() const {
+    std::cout << val2 << std::endl;
+  }
+  int getValue() const { return val; }
+private:
+  std::string val2;
+  int val;
+};
+
+
+
+const Literal* literize(std::string val) {
+    return new StringLiteral(val);
+}
 

@@ -17,7 +17,7 @@
   int intNumber;
   long double fltNumber;
   char *name;
-  //std::string str;
+  char *str;
   std::vector<Node*>* vec;
 }
 
@@ -30,11 +30,12 @@
 %token LESSEQUAL LPAR LSQB MINEQUAL NEWLINE NOT NOTEQUAL NUMBER
 %token OR PASS PERCENTEQUAL PLUSEQUAL PRINT RAISE RBRACE RETURN
 %token RIGHTSHIFTEQUAL RPAR RSQB SEMI SLASHEQUAL STAREQUAL
-%token STRING TILDE TRY VBAREQUAL WHILE WITH YIELD
+%token TILDE TRY VBAREQUAL WHILE WITH YIELD
 
 %token<intNumber> INT
 %token<fltNumber> FLOAT
 %token<name> NAME
+%token<str> STRING
 %type<node> atom power term factor
 %type<node> expr xor_expr and_expr shift_expr arith_expr
 %type<intNumber> pick_unop pick_multop pick_PLUS_MINUS pick_LEFTSHIFT_RIGHTSHIFT augassign comp_op
@@ -47,6 +48,7 @@
 %type<node> flow_stmt return_stmt
 %type<node> fpdef parameters opt_EQUAL_test
 %type<node> argument pick_argument
+%type<node> plus_STRING
 %type<vec> plus_stmt star_fpdef_COMMA varargslist
 %type<vec> arglist star_argument_COMMA opt_arglist
 %right EQUAL
@@ -927,7 +929,7 @@ atom // Used in: power
   | NUMBER
     { $$ = NULL; }
   | plus_STRING
-    { $$ = NULL; }
+    { $$ = $1; }
   | INT
     {
       $$ = new IntLiteral($1);
@@ -963,8 +965,10 @@ plus_STRING // Used in: atom, plus_STRING
   : plus_STRING STRING
   | STRING
   {
-    //$$ = new StringLiteral($1);
-    //pool.add($$);
+
+    $$ = new StringLiteral($1);
+    pool.add($$);
+
   }
   ;
 listmaker // Used in: opt_listmaker
