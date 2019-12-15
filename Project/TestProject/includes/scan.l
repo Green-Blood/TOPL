@@ -45,7 +45,7 @@ static void handle_eof(void);
 %option yylineno
 %option debug
 
-pointfloat   {integer}?{fraction}
+float   {integer}?{fraction}
 fraction       \.{digit}*
 integer     {nzointeger}|0
 nzointeger     {nonzero}{digit}*
@@ -73,7 +73,7 @@ comment   #.*
 
 "\\"{newline}               {  tok->cont_line = true;  mark_new_line(); /* Explicit line joining: throw it away */ ;  }
 
-{string}   { yylval.name = strdup(yytext); return STRING; }
+{string}   { yylval.str = strdup(yytext); return STRING; }
 
 
 "("        { left_enclose();  return LPAR; }
@@ -169,7 +169,7 @@ comment   #.*
              yylval.intNumber = atoi(yytext);
              return INT;
           }
-{pointfloat} {
+{float} {
              yylval.fltNumber = atof(yytext);
              return FLOAT;
            }

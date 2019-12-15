@@ -40,6 +40,7 @@
 %token<fltNumber> FLOAT
 %token<name> NAME
 %token<str> STRING
+
 %type<node> atom power term factor
 %type<node> expr xor_expr and_expr shift_expr arith_expr
 %type<intNumber> pick_unop pick_multop pick_PLUS_MINUS pick_LEFTSHIFT_RIGHTSHIFT augassign comp_op
@@ -386,17 +387,7 @@ star_ELIF // Used in: if_stmt, star_ELIF
     { $$=NULL;}
   ;
 while_stmt // Used in: compound_stmt
-  : WHILE test COLON suite ELSE COLON suite
-  {
-    if ($2) {
-      $$ = new WhileNode($2, $4);
-      pool.add($$);
-    }
-    else {
-      std::cout << "SyntaxError: invalid syntax" << std::endl;
-    }
-  }
-  | WHILE test COLON suite
+  : WHILE test COLON suite
   {
     if ($2) {
       $$ = new WhileNode($2, $4);

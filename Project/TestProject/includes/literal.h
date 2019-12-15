@@ -459,38 +459,38 @@ public:
     return literize(lhs + std::to_string(val));
   }
   virtual const Literal* opMult(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opSubt(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opDiv(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opMod(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opFlrDiv(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opPow(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opEqEqEqual(std::string lhs) const {
     return literize(0);
   }
   virtual const Literal* opLshift(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opRshift(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opEqEqual(std::string lhs) const {
@@ -507,43 +507,43 @@ public:
     return node;
   }
   virtual const Literal* opLess(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opGreater(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opLessEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opGreaterEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opNotEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opAndEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opOrEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opAmpersandEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opBarEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opXorEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
 
@@ -625,13 +625,13 @@ public:
   }
   virtual const Literal* opDiv(int lhs) const  {
     if ( val == 0 ) throw std::string("Zero Division Error");
-    int res = lhs / val;
+    float res = (1.0*lhs) / val;
     if (lhs * val < 0) {
       if (lhs % val != 0) {
         res--;
       }
     }
-    const Literal* node = new IntLiteral(res);
+    const Literal* node = new FloatLiteral(res);
     PoolOfNodes::getInstance().add(node);
     return node;
   }
@@ -891,38 +891,38 @@ public:
       return literize(lhs + std::to_string(val));
   }
   virtual const Literal* opMult(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opSubt(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opDiv(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opMod(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opFlrDiv(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opPow(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opEqEqEqual(std::string lhs) const {
     return literize(0);
   }
   virtual const Literal* opLshift(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opRshift(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opEqEqual(std::string lhs) const {
@@ -939,43 +939,43 @@ public:
     return node;
   }
   virtual const Literal* opLess(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opGreater(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opLessEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opGreaterEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opNotEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opAndEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opOrEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opAmpersandEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opBarEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
   virtual const Literal* opXorEqual(std::string lhs) const {
-    std::cout<<"Not IMPLEMENTED"<<std::endl;
+    std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
     return NULL;
   }
 
@@ -1017,15 +1017,15 @@ public:
    return rhs.opMult(val);
  }
  virtual const Literal* opMult(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opMult(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opMult(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1034,15 +1034,15 @@ public:
    return rhs.opSubt(val);
  }
  virtual const Literal* opSubt(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opSubt(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opSubt(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1051,15 +1051,15 @@ public:
    return rhs.opDiv(val);
  }
  virtual const Literal* opDiv(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opDiv(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opDiv(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1068,15 +1068,15 @@ public:
     return rhs.opMod(val);
  }
  virtual const Literal* opMod(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opMod(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opMod(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1085,15 +1085,15 @@ public:
     return rhs.opFlrDiv(val);
  }
  virtual const Literal* opFlrDiv(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opFlrDiv(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opFlrDiv(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1102,15 +1102,15 @@ public:
     return rhs.opPow(val);
  }
  virtual const Literal* opPow(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opPow(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opPow(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1133,15 +1133,15 @@ public:
     return rhs.opLshift(val);
  }
  virtual const Literal* opLshift(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opLshift(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opLshift(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1150,15 +1150,15 @@ public:
     return rhs.opRshift(val);
  }
  virtual const Literal* opRshift(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opRshift(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opRshift(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1202,15 +1202,15 @@ public:
     return rhs.opLess(val);
  }
  virtual const Literal* opLess(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opLess(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opLess(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1219,15 +1219,15 @@ public:
     return rhs.opGreater(val);
  }
  virtual const Literal* opGreater(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opGreater(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opGreater(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1236,15 +1236,15 @@ public:
     return rhs.opLessEqual(val);
  }
  virtual const Literal* opLessEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opLessEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opLessEqual(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1253,15 +1253,15 @@ public:
     return rhs.opGreaterEqual(val);
  }
  virtual const Literal* opGreaterEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opGreaterEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opGreaterEqual(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1270,11 +1270,11 @@ public:
     return rhs.opNotEqual(val);
  }
  virtual const Literal* opNotEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opNotEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opNotEqual(std::string lhs) const {
@@ -1286,15 +1286,15 @@ public:
    return rhs.opAndEqual(val);
  }
  virtual const Literal* opAndEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opAndEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opAndEqual(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1303,15 +1303,15 @@ public:
     return rhs.opOrEqual(val);
  }
  virtual const Literal* opOrEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opOrEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opOrEqual(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1320,15 +1320,15 @@ public:
     return rhs.opAmpersandEqual(val);
  }
  virtual const Literal* opAmpersandEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opAmpersandEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opAmpersandEqual(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1337,15 +1337,15 @@ public:
    return rhs.opBarEqual(val);
  }
  virtual const Literal* opBarEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opBarEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opBarEqual(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
@@ -1354,15 +1354,15 @@ public:
     return rhs.opXorEqual(val);
  }
  virtual const Literal* opXorEqual(long double) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opXorEqual(int) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
  virtual const Literal* opXorEqual(std::string lhs) const {
-   std::cout<<"Not IMPLEMENTED"<<std::endl;
+   std::cout<<"Semantic Error: Operation not applicable with String"<<std::endl;
    return NULL;
  }
 
