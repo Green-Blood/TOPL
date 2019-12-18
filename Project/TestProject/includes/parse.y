@@ -33,7 +33,7 @@
 %token FOR GLOBAL GREATER GREATEREQUAL GRLT IF INDENT
 %token LEFTSHIFTEQUAL LESS LESSEQUAL LPAR MINEQUAL
 %token NEWLINE NOT NOTEQUAL OR PERCENTEQUAL PLUSEQUAL
-%token PRINT RETURN RIGHTSHIFTEQUAL RPAR SEMI
+%token PRINT INPUT RETURN RIGHTSHIFTEQUAL RPAR SEMI
 %token SLASHEQUAL STAREQUAL TILDE VBAREQUAL WHILE
 
 %token<intNumber> INT
@@ -46,7 +46,7 @@
 %type<intNumber> pick_unop pick_multop pick_PLUS_MINUS pick_LEFTSHIFT_RIGHTSHIFT augassign comp_op
 %type<node> comparison not_test and_test or_test test
 %type<node> small_stmt expr_stmt star_EQUAL
-%type<node> print_stmt
+%type<node> print_stmt input_stmt
 %type<node> opt_test opt_COMMA
 %type<node> compound_stmt simple_stmt if_stmt while_stmt star_ELIF funcdef stmt suite
 %type<node> star_trailer trailer
@@ -189,6 +189,8 @@ small_stmt // Used in: simple_stmt, star_SEMI_small_stmt
     { $$ = $1; }
   | print_stmt
     { $$ = $1; }
+  | input_stmt
+    { $$ = $1; }
   | return_stmt
     { $$ = $1; }
   | global_stmt
@@ -322,6 +324,14 @@ print_stmt // Used in: small_stmt
   : PRINT test
     {
       $$ = new PrintNode($2);
+      pool.add($$);
+    }
+  ;
+
+input_stmt // Used in: small_stmt
+  : INPUT test
+    {
+      $$ = new InputNode($2);
       pool.add($$);
     }
   ;

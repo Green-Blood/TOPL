@@ -105,6 +105,19 @@ const Literal* PrintNode::eval() const {
   return NULL;
 }
 
+const Literal* InputNode::eval() const {
+  const Literal* temp = NULL;
+  int a;
+  std::cout<<">>>";
+  std::cin>>a;
+  //std::cout<<a<<std::endl;
+  //if(node){
+    const std::string n = static_cast<IdentNode*>(node)->getIdent();
+    TableManager::getInstance().insertSymbol(n, new IntLiteral(a));
+  //}
+  return NULL;
+}
+
 const Literal* WhileNode::eval() const {
   int testFlag;
   const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(test->eval());
@@ -190,7 +203,6 @@ const Literal* ElifNode::eval() const {
   if (testFlag) {
     res = suite->eval();
     if(res==nullptr){
-      std::cout<<"HERE"<<std::endl;
       res = new IntLiteral();
     }
   }

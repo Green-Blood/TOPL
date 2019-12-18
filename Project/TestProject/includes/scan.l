@@ -43,7 +43,6 @@ static void handle_eof(void);
 %}
 
 %option yylineno
-%option debug
 
 float   {integer}?{fraction}
 fraction       \.{digit}*
@@ -158,6 +157,7 @@ comment   #.*
 "lambda"   { return LAMBDA; }
 "pass"     { return PASS; }
 "print"    { return PRINT; }
+"input"    { return INPUT; }
 "raise"    { return RAISE; }
 "return"   { return RETURN; }
 "try"      { return TRY; }
