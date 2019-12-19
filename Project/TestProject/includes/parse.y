@@ -51,7 +51,7 @@
 %type<node> compound_stmt simple_stmt if_stmt while_stmt star_ELIF funcdef stmt suite
 %type<node> star_trailer trailer
 %type<node> return_stmt
-%type<node> fpdef parameters
+%type<node> fpdef parameters opt_listmaker star_COMMA_test
 %type<vec> plus_stmt star_fpdef_COMMA varargslist
 %type<vec> arglist star_argument_COMMA opt_arglist
 %right EQUAL
@@ -677,6 +677,26 @@ power // Used in: factor
         pool.add($$);
       }
     }
+  | atom LSQB test RSQB
+  {
+    std::cout<<"HI "<<std::endl;
+    int index = static_cast<IntLiteral*>($3)->getValue();
+    std::cout<<index<<std::endl;
+    std::string str = static_cast<StringLiteral*>($1)->getValue();
+    std::cout<<str<<std::endl;
+
+    const Literal* node = (new IdentNode(str))->eval();
+
+    //ListLiteral* lit = new ListLiteral(node->getValue());
+    //lit->print();
+
+    //std::cout<<"HI2  - "<<static_cast<IntLiteral*>(static_cast<Literal*>(node2))->getValue()<<std::endl;
+
+
+    //$1->getIValue(test->getValue())
+
+
+  }
   ;
 star_trailer // Used in: power, star_trailer
   : star_trailer trailer
@@ -687,6 +707,11 @@ star_trailer // Used in: power, star_trailer
 atom // Used in: power
   : LPAR opt_test RPAR
     { $$ = $2; }
+  | LSQB opt_listmaker RSQB
+    {
+      $$ = $2;
+      //$$->print();
+    }
   | NAME
     {
       $$ = new IdentNode($1);
@@ -718,6 +743,26 @@ opt_test // Used in: atom
     { $$ = NULL; }
   ;
 
+
+opt_listmaker // Used in: atom
+  : test star_COMMA_test opt_COMMA
+  {
+    $$ = new ListLiteral();
+    static_cast<ListLiteral*>($$)->push($1);
+    static_cast<ListLiteral*>($$)->pushAll($2);
+  }
+  | %empty
+  { $$ = new ListLiteral(); }
+  ;
+
+star_COMMA_test // Used in: star_COMMA_test, opt_test, listmaker
+  : star_COMMA_test COMMA test
+    { $$ = $1;
+      static_cast<ListLiteral*>($$)->push($3);
+    }
+  | %empty
+    { $$ = new ListLiteral(); }
+  ;
 
 trailer // Used in: star_trailer
   : LPAR opt_arglist RPAR
