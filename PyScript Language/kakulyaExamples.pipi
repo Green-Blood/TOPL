@@ -1,0 +1,116 @@
+# This is If example
+comp if_function(i):
+    # Initializing the i variable 
+    
+    #Checking if i is more than 9 and executing function
+    if i > 9:
+        comp b():
+            print("This is B function")
+        b()
+    elif i < 9: 
+        comp c():
+            print("This is C function")
+        c()
+    elif i == 9: 
+        comp d():
+            print("This is D function")
+        d()
+
+# function to Print multiplication_table
+def multiplication_table():
+    i = 0
+    while i < 9:
+        i = i + 1
+        j = 0
+        while j < 9:
+            j += 1
+            print(i + " x " + j + " = " + i * j)
+        
+    
+
+# Factorial function
+comp factorial(n):
+    if n >= 1: 
+        return n * factorial(n - 1)
+    else:
+        return 1
+    
+
+def display(a):
+    print("Variable is equal to " + a)
+
+a = 20 
+b = 10 
+
+print("Arithmetic operations:")
+print(" ")
+display(a)
+display(b)
+print("Substraction of " + a + " and " + b + " = " + (a - b) )
+print("Addition of " + a + " and " + b + " = " + (a + b) )
+print("Multiplication of " + a + " and " + b + " = " + (a + b) )
+print("Division of " + a + " and " + b + " = " + (a / b) )
+print("Modulus of " + a + " and " + b + " = " + (a % b) )
+print("Floor Division of " + a + " and " + b + " = " + (a // b) )
+val1 = 2
+val2 = 2
+val3 = 3
+display(val1)
+display(val2)
+display(val3)
+
+print("RHS Power of " + val1 +" " + val2 + " " + val3 + " = " + val1 ** val2 ** val3  )
+print(" ")
+
+print("Arithmetic equal operations:")
+print(" ")
+result = 20 
+result -= a
+print("SubstractionEqual of " + a +  " = " + (result ))
+
+result = 1
+result += a
+print("AdditionEqual of " + a + " = " + (result) )
+
+result = 1
+result *= a
+print("MultiplicationEqual of " + a + " = " + result)
+
+result = 20
+result /= a
+print("DivisionEqual of " + a +  " = " + result )
+
+result = 1
+result %= a
+print("ModulusEqual of " + a + " = " + result )
+
+result = 20
+result //= a
+print("Floor DivisionEqual of " + a + " = " + result )
+
+
+val1 = 2
+val2 = 2
+display(val1)
+display(val2)
+val1 **= val2
+print("RHS PowerEqual of" + " = " + val1  )
+print(" ")
+
+print("Checking 1 int === 1 string conditions " )
+print(1 === "1")
+print("Checking 1 int === 1 int conditions " )
+print(1 === 1)
+print("Checking 1 int == 1 string conditions " )
+print(1 == '1')
+
+
+print("Functions:")
+print(" ")
+fact = factorial(5)
+print(fact)
+
+#if_function(5)
+#if_function(9)
+#if_function(15)
+#multiplication_table()

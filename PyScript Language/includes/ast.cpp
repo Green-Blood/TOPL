@@ -105,6 +105,19 @@ const Literal* PrintNode::eval() const {
   return NULL;
 }
 
+const Literal* InputNode::eval() const {
+  const Literal* temp = NULL;
+  int a;
+  std::cout<<">>>";
+  std::cin>>a;
+  //std::cout<<a<<std::endl;
+  //if(node){
+    const std::string n = static_cast<IdentNode*>(node)->getIdent();
+    TableManager::getInstance().insertSymbol(n, new IntLiteral(a));
+  //}
+  return NULL;
+}
+
 const Literal* WhileNode::eval() const {
   int testFlag;
   const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(test->eval());
@@ -189,21 +202,8 @@ const Literal* ElifNode::eval() const {
 
   if (testFlag) {
     res = suite->eval();
-    //HERE is a problem sometimes(or always?) even executed suite returns null
     if(res==nullptr){
-      std::cout<<"HERE"<<std::endl;
       res = new IntLiteral();
-
-      /*
-      const Literal* node = new IntLiteral();
-      const IntLiteral* ptr = dynamic_cast<const IntLiteral*>(node);
-      if (ptr->isEmpty()){
-        std::cout<<"Qwertyui"<<std::endl;
-      }
-      else{
-        std::cout<<"KJHGFD"<<std::endl;
-      }
-      */
     }
   }
 

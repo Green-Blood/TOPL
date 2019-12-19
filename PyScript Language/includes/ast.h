@@ -70,6 +70,17 @@ private:
   Node* node;
 };
 
+class InputNode : public Node {
+public:
+  InputNode(Node* n) : Node(), node(n) {}
+  virtual const Literal* eval() const;
+  InputNode(const InputNode&) = delete;
+  InputNode& operator=(const InputNode&) = delete;
+private:
+  Node* node;
+};
+
+
 class ArgNode : public Node {
 public:
   ArgNode(const std::vector<Node*>* vec): Node(), arglist(*vec) {}

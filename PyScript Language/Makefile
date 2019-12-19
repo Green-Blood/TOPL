@@ -1,7 +1,7 @@
 CCC = g++
 LEX = flex
-YACC = bison 
-CFLAGS = -g -std=c++11 -W -Wall -Wno-unused -Weffc++ -Wextra -pedantic -O0
+YACC = bison
+CFLAGS = -g -std=c++11 -W -Wall -Wno-unused -Weffc++ -Wextra -pedantic -O0 -w
 LEXFLAGS = -Wno-unused -Wno-sign-compare -Wno-deprecated-register
 YACCDEBUG = -vtd
 
