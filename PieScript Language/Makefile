@@ -8,7 +8,7 @@ YACCDEBUG = -vtd
 OBJS = main.o parse.tab.o lex.yy.o ast.o tableManager.o symbolTable.o functionTable.o poolOfNodes.o
 
 PyScript: $(OBJS)
-	$(CCC) $(CFLAGS) -o PyScript $(OBJS)
+	$(CCC) $(CFLAGS) -o PieScript $(OBJS)
 
 main.o: main.cpp includes/parse.y includes/scan.l parse.tab.c lex.yy.c
 	$(CCC) $(CFLAGS) -c main.cpp
