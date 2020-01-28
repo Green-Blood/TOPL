@@ -1,6 +1,6 @@
 # TOPL - Theory Of Programming Languages
 ## This is TOPL Term Project report repository 
-- Project name: PyScript
+- Project name: PieScript
 - Editor name: PiDE
 ### What have we accomplished:
 
